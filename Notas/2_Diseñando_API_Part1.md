@@ -38,14 +38,14 @@ Puede estar escrita en diferentes formatos, siendo Swagger/OpenAPI, RAML, y Grap
 
 Una especificación de API es esencial para promover la interoperabilidad entre sistemas y facilitar la colaboración entre desarrolladores y consumidores de la API. Además, sirve como una herramienta valiosa para la documentación, la prueba automatizada y el mantenimiento a lo largo del ciclo de vida de la API.
 
-# Pasos del ejercicio realizado en Anypoint
+# Ejemplo práctico
 
 1. Creamos en el `Design Center` una nueva `API Specification`
 
 2. Le damos el nombre de `bank-sys-api-ex`
 
 3. Agregamos lo siguiente:
-    ```
+    ```yaml
     #%RAML 1.0
     title: bank-sys-api-ex
 
@@ -98,7 +98,7 @@ Este código `RAML` (RESTful API Modeling Language) describe la especificación 
     - `application/json:`: Indica que el cuerpo de la respuesta estará en formato JSON.
     - `example:`: Proporciona un ejemplo del cuerpo de la respuesta en formato JSON.
 
-    ```
+    ```yaml
     {
         "BankAccountNumber": 123456,
         "Name": "Jhon Dee",
@@ -110,7 +110,7 @@ Este código `RAML` (RESTful API Modeling Language) describe la especificación 
 
 4. Seguido del código anterior agregamos el siguiente:
 
-    ```
+    ```yaml
     /createAccount:
         description: "To create a new account"
         post:
