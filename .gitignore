@@ -1,6 +1,3 @@
-Claro, aquí tienes un ejemplo de un archivo `.gitignore` para un proyecto de Anypoint Studio:
-
-```markdown
 # .gitignore
 
 # Ignore everything in the root except the "src" and ".gitignore" files.
@@ -42,6 +39,3 @@ Claro, aquí tienes un ejemplo de un archivo `.gitignore` para un proyecto de An
 /mule-enterprise-standalone-*/
 /domains/
 /apps/
-```
-
-Este archivo `.git
