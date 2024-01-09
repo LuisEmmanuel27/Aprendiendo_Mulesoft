@@ -13,3 +13,5 @@
 ## 4. <a href="./Notas/4_Desarrollando_API_Part1.md">Developing APIs PART 1</a>
 
 ## 5. <a href="./Notas/5_Desarrollando_API_Part2.md">Developing APIs PART 2</a>
+
+## 6. <a href="./Notas/6_Desarrollando_API_Part3.md">Developing APIs PART 3</a>
