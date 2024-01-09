@@ -10,16 +10,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</http:listener-config>
 	<flow name="apexhoursFlow" doc:id="9398cef5-e5ba-4b70-9f23-9bce4c200710" >
 		<http:listener doc:name="My first lister" doc:id="97f2d8ff-3a32-4529-9294-1082d75ea13d" config-ref="HTTP_Listener_config" path="/test"/>
+		<set-variable value='#["apple"]' doc:name="storing fruit name" doc:id="e9166f5f-0134-4c94-a9d0-91fca761eede" variableName="fruitName"/>
 		<flow-ref doc:name="Flow Reference" doc:id="7619b3dc-3ff2-4609-904d-7606a753a680" name="private-flow"/>
 	</flow>
 	<flow name="private-flow" doc:id="1f06bbe8-1f7d-47f6-ab87-58b8037dd610" >
-		<ee:transform doc:name="Transform Message" doc:id="c80d970c-9d72-40f3-bbc1-0c5cca4757f9">
-			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-"Hello World! Luis E. esta aquí"]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
+		<set-payload value='#["Hello World! Emmanuel Aqui"]' doc:name="Set Payload" doc:id="dcb9d638-2847-4522-a5d6-fc30247d5e01" />
 	</flow>
 </mule>
