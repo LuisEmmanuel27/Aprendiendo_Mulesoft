@@ -10,10 +10,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</http:listener-config>
 	<flow name="apexhoursFlow" doc:id="9398cef5-e5ba-4b70-9f23-9bce4c200710" >
 		<http:listener doc:name="My first lister" doc:id="97f2d8ff-3a32-4529-9294-1082d75ea13d" config-ref="HTTP_Listener_config" path="/test"/>
-		<set-variable value='#["apple"]' doc:name="storing fruit name" doc:id="e9166f5f-0134-4c94-a9d0-91fca761eede" variableName="fruitName"/>
+		<set-variable value="#[attributes.queryParams.name]" doc:name="storing Name" doc:id="fc0d014e-7f59-45ae-84f8-6be535bb785b" variableName="name"/>
+		<logger level="INFO" doc:name="Logger" doc:id="48c3d265-6455-4170-828b-2ee3a4b532ba" message="#[vars.fruitName]"/>
 		<flow-ref doc:name="Flow Reference" doc:id="7619b3dc-3ff2-4609-904d-7606a753a680" name="private-flow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="b3af85eb-f366-4784-bf89-22543884a220" message="Este es el final del Flow"/>
 	</flow>
 	<flow name="private-flow" doc:id="1f06bbe8-1f7d-47f6-ab87-58b8037dd610" >
-		<set-payload value='#["Hello World! Emmanuel Aqui"]' doc:name="Set Payload" doc:id="dcb9d638-2847-4522-a5d6-fc30247d5e01" />
+		<set-payload value='#["Hello World! Aqui esta " ++ vars.name]' doc:name="Set Payload" doc:id="dcb9d638-2847-4522-a5d6-fc30247d5e01" />
 	</flow>
 </mule>

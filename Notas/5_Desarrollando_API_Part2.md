@@ -132,3 +132,59 @@ Imagina que tu aplicación es como un libro, y el "Logger" es el escritor que ag
 ```
 
 En este ejemplo, estamos usando el "Logger" para registrar un mensaje importante. Es como si el escritor estuviera añadiendo una nota en el libro de eventos de la aplicación. Cuando revisas el registro, encontrarás esta nota que dice "¡Esto es importante!" en el momento en que ocurrió. ¡Y así es como el "Logger" te ayuda a mantener un seguimiento detallado de lo que sucede en tu aplicación Mule 4!
+
+# Practica, Parte 3
+
+1. Ahora haremos uso del `Logger`, lo buscamos en nuestro `Mule Palette` y lo colocamos entre nuestra `variable` y el `Flow Reference`
+
+2. No necesitamos colocar nada en su _`Fx`_, pero no nos serviria de nada, asi que colocaremos lo siguiente:
+    ```css
+    #[vars.fruitName]
+    ```
+
+3. Guardamos, compilamos, cuando nos muestre que ya esta desplegado podemos limpiar la consola
+
+4. Ahora volvemos a hacer la peticion en RapidAPI y veremos en en la consola nos mostrara el valor de la variable
+
+<div align="center">
+    <img src="./img/practica2-ejemplo4.png" alt="ejemplo" width="800">
+</div>
+
+5. Agregamos otro `Logger` justo después de nuestro `Flow Reference` con algun mensaje simple como "Este es el final de nuestro Flow"
+
+6. Podemos hacer debug para ir viendo como se comporta el programa
+
+> [!NOTE]
+> Que pasa si pasamos query parameters? pues puedes intentarlo cambiando la URL de la petición con algo asi "​http://localhost:8082/test?technology=MuleSoft", cuando hagamos debug desde la variable en los meta-datos podremos ver el valor de dicha query que pasamos 👀
+
+7. Ahora le daremos un uso interesante a los queryParams, haremos que el mensaje que nos retorne sea "dinamico", para ello iremos a nuestro `Set Payload` y cambiaremos el código de _`Fx`_ por algo como esto:
+    ```css
+    #["Hello World! Aqui esta " ++ attributes.queryParams.name]
+    ```
+
+8. Lo anterior nos marcara error pero no hay problema, es solo por que de momento piensa que ese valor es `null`, ahora si nos damos cuenta colocamos `name` por ende la url a probar debe ser algo como esto:
+    ```
+    ​http://localhost:8082/test?name=Luis
+    ```
+
+9. Guardamos, compilamos en modo Debug y volvemos a realizar la petición con RapidAPI y veremos que ahora el mensaje que colocamos tiene el valor de el query param que le pasamos
+
+<div align="center">
+    <img src="./img/practica2-ejemplo5.png" alt="ejemplo" width="800">
+</div>
+
+10. Con todo lo aprendido podemos darle un uso más relista a nuestra variable, asi que vamos a borrarla y agregaremos una nueva en el mismo sitio donde la teniamos antes
+
+11. Ahora vamos a necesitar que esta variable almacene lo que se recibe del `queryParams`, para ello llenaremos las propiedades de la misma de la siguiente forma:
+    - Display Name: storing Name
+    - Name: name
+    - _`Fx`_: #[attributes.queryParams.name]
+
+    Finalmente le agregamos su `breakpoint` para el debug
+
+12. Mientras que ahora en el `Set Payload` en su _`Fx`_ colocaremos lo siguiente:
+    ```css
+    #["Hello World! Aqui esta " ++ vars.name]
+    ```
+
+13. Guardamos, compilamos en modo debug, volvemos a realizar la petición y observamos el comportamiento del programa
