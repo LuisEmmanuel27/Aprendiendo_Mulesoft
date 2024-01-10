@@ -8,7 +8,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8bc3e6b0-3292-4191-96e3-d494a124a8f5" >
 		<http:listener-connection host="0.0.0.0" port="${http.port}" />
 	</http:listener-config>
-	<configuration-properties doc:name="Configuration properties" doc:id="eae08ef4-607f-4990-aca0-8ec44a384f1b" file="test.properties"/>
 	<flow name="apexhoursFlow" doc:id="9398cef5-e5ba-4b70-9f23-9bce4c200710" >
 		<http:listener doc:name="My first lister" doc:id="97f2d8ff-3a32-4529-9294-1082d75ea13d" config-ref="HTTP_Listener_config" path="/test"/>
 		<ee:transform doc:name="Transform Message" doc:id="d4557c2a-620e-4319-8ef1-d7e3718fc44d" >
@@ -16,10 +15,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{
-	"Value using dollar" : '${message}',
-	"Value using p" : p('message')
-}]]></ee:set-payload>
+"Hello World! Luis Emmanuel Aqui"]]></ee:set-payload>
 				<ee:set-attributes ><![CDATA[%dw 2.0
 output application/java
 ---

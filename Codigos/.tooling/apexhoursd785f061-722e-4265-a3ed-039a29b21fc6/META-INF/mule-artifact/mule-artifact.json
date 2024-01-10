@@ -14,9 +14,7 @@
       "exportedResources": [
         "apexhours.xml",
         "application-types.xml",
-        "dev.properties",
-        "log4j2.xml",
-        "test.properties"
+        "log4j2.xml"
       ]
     }
   },
