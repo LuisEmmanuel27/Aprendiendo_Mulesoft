@@ -14,12 +14,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<ee:transform doc:name="Transform Message" doc:id="d4557c2a-620e-4319-8ef1-d7e3718fc44d" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
+output application/xml
 ---
-{
-	"Value using dollar" : '${message}',
-	"Value using p" : p('message')
-}]]></ee:set-payload>
+details : payload]]></ee:set-payload>
 				<ee:set-attributes ><![CDATA[%dw 2.0
 output application/java
 ---

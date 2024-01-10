@@ -204,3 +204,201 @@ Al interactuar con las características de vista previa, puedes desarrollar una 
 La capacidad de previsualizar transformaciones facilita la depuración al permitirte identificar rápidamente posibles problemas antes de la ejecución completa. Puedes detectar errores, realizar ajustes y perfeccionar tus transformaciones de manera más eficiente.
 
 En resumen, las características de vista previa en DataWeave 2.0 ofrecen una valiosa capacidad de exploración y experimentación antes de la implementación, permitiéndote entender, depurar y optimizar tus transformaciones de datos de manera efectiva.
+
+# Actividad, Parte 2
+
+> [!TIP]
+> En la esquina superior derecha de donde escribimos nuestros `dw` del `Transform Message` tenemos el botón de _preview_ el cuál lo que hara es mostrar una vista previa de la respuesta que podemos esperar al momento de hacer la petición
+
+1. Podemos hacer algunas de las actividades en el [Dataweave PlayGround](https://dataweave.mulesoft.com/learn/dataweave)
+
+2. Podemos hace una prueba simple como solo escribir:
+    ```properties
+    3*2*3
+    ```
+
+    y veremos el resultado de esa operación en el `Preview`, lo mismo pasara si lo intentamos en nuestro Anypoit Studio
+
+<div align="center">
+    <img src="./img/practica3-ejemplo1.png" alt="ejemplo" width="700"/>
+</div>
+
+# Objectos y Arrays
+
+Al final son lo mismo que cualquier otro lenguaje de programación, en el mismo [Dataweave PlayGround](https://dataweave.mulesoft.com/learn/dataweave) en la sección de `TUTORIAL` podremos encontrar más información al respecto de como se utilizan, etc.
+
+Algo gracioso a probar en el Playground:
+```properties
+%dw 2.0
+output application/json
+---
+{
+    "primer dato" : upper("luis"),
+    "segundo dato" : 3+4,
+    "mas" : {
+        "otro" : 1,
+        "array" : [1,2,3,4],
+        "arrayObj" : [
+            {
+                "1" : 1,
+            },
+            {
+                "2" : 2,
+                "3" : 3,
+            },
+        ]
+    },
+    "raiz" : (sqrt(4)*3)/5,
+    "payload" : payload.message
+}
+```
+
+# DataWeave 2.0: Transformación de un Tipo de Datos a Otro
+
+La capacidad de transformar un tipo de datos a otro es esencial en DataWeave 2.0 y permite la interoperabilidad entre diferentes formatos. Aquí exploramos en detalle las conversiones más comunes y relevantes:
+
+## JSON a XML:
+
+La transformación de JSON a XML se logra utilizando la función `output application/xml`. DataWeave asignará automáticamente las propiedades del objeto JSON a elementos XML, creando una representación XML estructurada.
+
+**Ejemplo:**
+```properties
+%dw 2.0
+output application/xml
+---
+{
+  name: "John",
+  age: 30
+}
+```
+
+## XML a JSON:
+
+La conversión de XML a JSON se realiza mediante la función `output application/json`. DataWeave interpreta la estructura XML y la transforma en un objeto JSON correspondiente.
+
+**Ejemplo:**
+```properties
+%dw 2.0
+output application/json
+---
+{
+  person: {
+    name: "John",
+    age: 30
+  }
+}
+```
+
+## JSON a CSV:
+
+Para transformar JSON a CSV, puedes utilizar la función `output application/csv`. Esto genera un formato de archivo CSV con encabezados basados en las claves del objeto JSON.
+
+**Ejemplo:**
+```properties
+%dw 2.0
+output application/csv
+---
+[
+  {
+    name: "John",
+    age: 30
+  },
+  {
+    name: "Jane",
+    age: 25
+  }
+]
+```
+
+## XML a CSV:
+
+La transformación de XML a CSV sigue un proceso similar. Primero, conviertes XML a JSON y luego aplicas la función `output application/csv`.
+
+**Ejemplo:**
+```properties
+%dw 2.0
+output application/csv
+---
+(payload.people map ((person) -> {
+  name: person.name,
+  age: person.age
+}))
+```
+
+## Otros Tipos de Conversión:
+
+Además de las conversiones mencionadas, DataWeave 2.0 admite una amplia variedad de transformaciones, incluyendo pero no limitado a:
+
+- **JSON a YAML**
+- **XML a YAML**
+- **CSV a JSON**
+- **CSV a XML**
+- **Texto Plano a JSON**
+- **Texto Plano a XML**
+- **Entre otros...**
+
+**Nota:** La lista es extensa y abarca prácticamente cualquier combinación de formatos comúnmente utilizados.
+
+## Consideraciones Importantes:
+
+- **Mapeo Explícito:** En algunas conversiones más complejas, puede ser necesario realizar un mapeo explícito para estructuras más detalladas.
+- **Funciones de Formateo:** DataWeave incluye funciones específicas para el formateo y manipulación detallada de cada tipo de datos, proporcionando flexibilidad en las transformaciones.
+
+La capacidad de DataWeave 2.0 para transformar entre diferentes tipos de datos es fundamental para la integración de sistemas y facilita la interoperabilidad entre diferentes formatos utilizados en el ámbito de la integración y procesamiento de datos.
+
+# Actividad, Parte 3
+
+1. En el [Dataweave PlayGround](https://dataweave.mulesoft.com/learn/dataweave) veremos un cambio de `JSON` a `XML`
+
+2. Dejamos el `JSON` del _payload_ que el _playground_ ya tiene por defecto y en la parte del código simplemente agregaremos esto:
+    ```properties
+    %dw 2.0
+    output application/xml
+    ---
+    payload
+    ```
+
+    veremos en el `output` el payload pero en forma de `XML`
+
+3. Ahora si modificamos el _payload_ con algo como esto:
+    ```json
+    {
+        "name": "Luis",
+        "city": "Lerma",
+        "age": 26
+    }
+    ```
+
+    veremos que la salida nos da error, eso es por que a ser `XML` necesitamos **encerrar** dicha información, por asi decirlo
+
+4. Para que funcione solo basta con que hagamos algo como esto:
+    ```properties
+    %dw 2.0
+    output application/xml
+    ---
+    details : payload
+    ```
+
+5. Ahora veamos como funciona esto en nuestro proyecto de `Anypoint studio`, para ello simplemente seleccionamos nuestro `Tansform Message` y cambiamos el código que teniamos por el que colocamos en el _playground_
+
+6. Compilamos y en nuestro `RaidAPI` haremos la petición pero esta vez con un `POST` y enviando en el cuerpo del mismo el _payload_ que teniamos en el _playground_ y veamos lo que nos retorna
+
+7. Si volvemos al _playground_ y en la parte del _payload_ pegamos el `XML`:
+    ```xml
+    <?xml version='1.0' encoding='UTF-8'?>
+    <details>
+        <name>Luis</name>
+        <city>Lerma</city>
+        <age>26</age>
+    </details>
+    ```
+
+    y queremos pasarlo a un `JSON` simplemente en el _script_ lo escribimos similar a como lo teniamos antes:
+    ```properties
+    %dw 2.0
+    output application/json
+    ---
+    payload
+    ```
+
+    y veremos el _output_ con el `JSON` esperado
