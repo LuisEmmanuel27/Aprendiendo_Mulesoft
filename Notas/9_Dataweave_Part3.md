@@ -369,4 +369,89 @@ Para cada tema, proporcionaremos ejemplos específicos, explicaciones detalladas
 
     haz la prueba eliminando unod e los `marks` del _payload_
 
-5. 
+## Custom Function
+
+5. Haremos primero una pequeña prueba de como funcionan las funciones, para ello agrega el siguiente código:
+    ```properties
+    %dw 2.0
+    output application/json
+
+    fun resultCheck(a,b) = a + b
+    ---
+    payload map {
+        "name": $.name,
+        "functionValue": resultCheck(5,6)
+    }
+    ```
+
+6. Ahora para darle una verdadera utilidad a nuestra función, modifica el _payload_ de la siguiente manera:
+    ```json
+    [
+        {
+            "name": "Maria",
+            "Maths": 70,
+            "Social": 30
+        },
+        {
+            "name": "Veronica",
+            "Maths": 50,
+            "Social": 70
+        }
+    ]
+    ```
+
+7. Haremos algo similar al ejemplo anterior de obtener `PASS` o `FAIL` según sea el valor dado, por lo que haremos el siguiente código:
+    ```properties
+    %dw 2.0
+    output application/json
+
+    fun resultCheck(value) = if(value > 60) "PASS" else "FAIL"
+    ---
+    payload map {
+        "name": $.name,
+        "Maths Result": resultCheck($.Maths),
+        "Social Result": resultCheck($.Social)
+    }
+    ```
+
+    Observa el resultado obtenido
+
+## GroupBy & DistincBy
+
+8. Modificaremos el _payload_ de manera que tengamos algo como esto:
+    ```json
+    [
+        {
+            "name": "Sara",
+            "Maths": 70,
+            "Social": 40
+        },
+        {
+            "name": "Lara",
+            "Maths": 80,
+            "Social": 60
+        },
+        {
+            "name": "Sara",
+            "Hindi": 30,
+            "Spanish": 90
+        },
+        {
+            "name": "Lara",
+            "English": 50,
+            "Telugu": 70
+        }
+    ]
+    ```
+
+9. Ahora en el _script_ prueba el siguiente código:
+    - `payload groupBy $.name`
+
+    observa como se agrupan por el `name` en el _output_
+
+> [!NOTE]
+> Solo funciona si todos tienen una `key` en común, como es en este caso del `name`, si intentaramos por `Maths` fallara, ya que solo 2 de los 4 elementos tienen dicha `key`.
+
+10. Ahora cambia el `groupBy` por `distinctBy` y observa el resultado obtenido
+
+11. Para entender un poco mejor del por que del resultado anterior, intenta declarar una variable global como por ejemplo `var a = [1,2,1,3,4,4,3,5,6,6,7]`, aplicale el `a distinctBy $` y observa el resultado
