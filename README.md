@@ -19,3 +19,5 @@
 ## 7. <a href="./Notas/7_Dataweave_Part1.md">DataWeave 2.0 PART 1</a>
 
 ## 8. <a href="./Notas/8_Dataweave_Part2.md">DataWeave 2.0 PART 2</a>
+
+## 9. <a href="./Notas/9_Dataweave_Part3.md">DataWeave 2.0 PART 3</a>
