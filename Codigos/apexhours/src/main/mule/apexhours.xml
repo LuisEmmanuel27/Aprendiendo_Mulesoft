@@ -10,22 +10,58 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</http:listener-config>
 	<configuration-properties doc:name="Configuration properties" doc:id="eae08ef4-607f-4990-aca0-8ec44a384f1b" file="test.properties"/>
 	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="d22d7c0b-0f3d-4d58-be2e-3e5da1a7f3ff" />
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="ce0a9a44-c2a7-4354-93f0-decac40cb7dc" />
 	<flow name="apexhoursFlow" doc:id="9398cef5-e5ba-4b70-9f23-9bce4c200710" >
 		<http:listener doc:name="My first lister" doc:id="97f2d8ff-3a32-4529-9294-1082d75ea13d" config-ref="HTTP_Listener_config" path="/test"/>
-		<http:request method="GET" doc:name="Wheater API" doc:id="890445a5-0726-4169-8168-86ad1d26051e" config-ref="HTTP_Request_configuration" url='http://api.weatherstack.com/current'>
-			<http:query-params ><![CDATA[#[output application/java
+		<set-variable value="#[attributes.queryParams.city1]" doc:name="cityName1" doc:id="5925d30c-f2d4-4102-b98d-527eb0b51674" variableName="cityName1"/>
+		<set-variable value="#[attributes.queryParams.city2]" doc:name="cityName2" doc:id="09b70384-f74c-43b6-948f-381d45872fa0" variableName="cityName2"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="6fbc79c8-b35c-4f25-abcd-5f03f6f1766f" >
+			<route >
+				<http:request method="GET" doc:name="Wheater API city 1" doc:id="890445a5-0726-4169-8168-86ad1d26051e" config-ref="HTTP_Request_configuration" url="http://api.weatherstack.com/current">
+			<http:query-params><![CDATA[#[output application/java
 ---
 {
 	"access_key" : "2640303e2b004bdd1409b2aaaf3ecbaa",
-	"query" : "Mexico"
+	"query" : vars.cityName1
 }]]]></http:query-params>
 		</http:request>
-		<ee:transform doc:name="Transform Message" doc:id="f9f4f096-935f-405e-9bc0-4813262a5f1c" >
+				<ee:transform doc:name="Transform Message" doc:id="f9f4f096-935f-405e-9bc0-4813262a5f1c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+"Hola la temperatura en " ++ payload.location.name ++ " es de " ++ payload.current.temperature]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			</route>
+			<route >
+				<http:request method="GET" doc:name="Weather API city 2" doc:id="b8d08a85-dfb7-470d-9414-ad640f53a2a2" config-ref="HTTP_Request_configuration1" url="http://api.weatherstack.com/current">
+					<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"access_key" : "2640303e2b004bdd1409b2aaaf3ecbaa",
+	"query" : vars.cityName2
+}]]]></http:query-params>
+				</http:request>
+				<ee:transform doc:name="Transform Message" doc:id="54f61175-39d1-4d4a-88e0-ee9752a92448">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+"Hola la temperatura en " ++ payload.location.name ++ " es de " ++ payload.current.temperature]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Transform Message" doc:id="3dbd7804-4ca7-47dc-bfa5-d7dd49b1540a" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-payload]]></ee:set-payload>
+{
+	"First City Temp" : payload[0].payload,
+	"Second City Temp" : payload[1].payload
+}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
