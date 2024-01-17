@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8bc3e6b0-3292-4191-96e3-d494a124a8f5" >
 		<http:listener-connection host="0.0.0.0" port="${http.port}" />
 	</http:listener-config>
 	<configuration-properties doc:name="Configuration properties" doc:id="eae08ef4-607f-4990-aca0-8ec44a384f1b" file="test.properties"/>
 	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="d22d7c0b-0f3d-4d58-be2e-3e5da1a7f3ff" />
 	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="ce0a9a44-c2a7-4354-93f0-decac40cb7dc" />
+	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="7999a181-79c8-4cd2-9ae6-ef3c8311b10e" />
 	<flow name="apexhoursFlow" doc:id="9398cef5-e5ba-4b70-9f23-9bce4c200710" >
 		<http:listener doc:name="My first lister" doc:id="97f2d8ff-3a32-4529-9294-1082d75ea13d" config-ref="HTTP_Listener_config" path="/test"/>
 		<set-variable value="#[attributes.queryParams.city1]" doc:name="cityName1" doc:id="5925d30c-f2d4-4102-b98d-527eb0b51674" variableName="cityName1"/>
@@ -62,6 +64,42 @@ output application/json
 	"First City Temp" : payload[0].payload,
 	"Second City Temp" : payload[1].payload
 }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="apexhoursFlow1" doc:id="635dd14a-452f-4a34-9f88-8ebb5c796155" >
+		<http:listener doc:name="Listener" doc:id="e523043b-72be-4545-80fc-839e30389089" config-ref="HTTP_Listener_config" path="/choice"/>
+		<set-variable value="#[attributes.queryParams.fruit]" doc:name="Fruit" doc:id="92a4aafe-cf9c-4053-b2c7-447725000458" variableName="fruit"/>
+		<choice doc:name="Choice" doc:id="64bd0d12-f290-4c7e-81fa-ed45056786ff" >
+			<when expression='#[vars.fruit == "Apple"]'>
+				<set-payload value='#["Apple"]' doc:name="Apple" doc:id="0526a74d-161d-43ca-8972-167da787908a" />
+			</when>
+			<when expression='#[vars.fruit == "Banana"]'>
+				<set-payload value='#["Banana"]' doc:name="Banana" doc:id="007abba6-aa5a-4986-8463-cd47081a5497" />
+			</when>
+			<otherwise >
+				<set-payload value='#["No Fruit"]' doc:name="No Fruit" doc:id="4e30763c-80d2-494e-a212-9b8de9a36cc2" />
+			</otherwise>
+		</choice>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="3448c587-f404-4182-aaca-bb9a9ffc1330" />
+	</flow>
+	<flow name="apexhoursFlow2" doc:id="b8f0128c-a60c-42ad-9bb0-ad2aa272830d" >
+		<http:listener doc:name="Listener" doc:id="8456fcd3-9f7a-4e4b-930f-e28a63ec08f2" config-ref="HTTP_Listener_config" path="/validation"/>
+		<ee:transform doc:name="Transform Message" doc:id="0c03ba1f-e6e8-4ffa-95b9-8612476f848d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.id]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<validation:is-number doc:name="Is number" doc:id="ec12806a-2daf-43b0-b137-ac3ca5fac13e" config-ref="Validation_Config" value="#[payload]" numberType="INTEGER" message="This is NOT a number, Please check"/>
+		<ee:transform doc:name="Transform Message" doc:id="84d0cfee-4fbe-4d64-98f0-1b38300f8c36" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"Success"]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>

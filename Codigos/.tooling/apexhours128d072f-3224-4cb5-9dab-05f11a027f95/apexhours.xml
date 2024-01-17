@@ -85,22 +85,6 @@ output application/json
 	</flow>
 	<flow name="apexhoursFlow2" doc:id="b8f0128c-a60c-42ad-9bb0-ad2aa272830d" >
 		<http:listener doc:name="Listener" doc:id="8456fcd3-9f7a-4e4b-930f-e28a63ec08f2" config-ref="HTTP_Listener_config" path="/validation"/>
-		<ee:transform doc:name="Transform Message" doc:id="0c03ba1f-e6e8-4ffa-95b9-8612476f848d" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-payload.id]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<validation:is-number doc:name="Is number" doc:id="ec12806a-2daf-43b0-b137-ac3ca5fac13e" config-ref="Validation_Config" value="#[payload]" numberType="INTEGER" message="This is NOT a number, Please check"/>
-		<ee:transform doc:name="Transform Message" doc:id="84d0cfee-4fbe-4d64-98f0-1b38300f8c36" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-"Success"]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
+		<validation:is-number numberType="" doc:name="Is number" doc:id="ec12806a-2daf-43b0-b137-ac3ca5fac13e" />
 	</flow>
 </mule>
