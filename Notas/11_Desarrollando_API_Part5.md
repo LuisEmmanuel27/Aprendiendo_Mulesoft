@@ -218,8 +218,8 @@ El conector de Base de Datos en Mule 4 simplifica la interacción con bases de d
     }
     ```
 
-    > [!IMPORTANT]
-    > Es necesario que los VALUES a los que se les coloco `:` al principo de cada uno sean exactamente los mismos que colocamos en el `Input Parameters` para que funcione correctamente, otro dato es que los VALUES a los que les colocamos el `:` podemos nombrarlos como queramos pero por buenas practicas mantenemos el nombre de las columnas para evitar confusiones
+> [!IMPORTANT]
+> Es necesario que los VALUES a los que se les coloco `:` al principo de cada uno sean exactamente los mismos que colocamos en el `Input Parameters` para que funcione correctamente, otro dato es que los VALUES a los que les colocamos el `:` podemos nombrarlos como queramos pero por buenas practicas mantenemos el nombre de las columnas para evitar confusiones
 
     Con lo realizado ya deberíamos ir captando como es que podemos pasar dinamicamente los valores, pero de momento continuaremos con el ejemplo como lo tenemos
 
