@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
-http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8bc3e6b0-3292-4191-96e3-d494a124a8f5" >
 		<http:listener-connection host="0.0.0.0" port="${http.port}" />
 	</http:listener-config>
@@ -13,6 +14,9 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="d22d7c0b-0f3d-4d58-be2e-3e5da1a7f3ff" />
 	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="ce0a9a44-c2a7-4354-93f0-decac40cb7dc" />
 	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="7999a181-79c8-4cd2-9ae6-ef3c8311b10e" />
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="5a45239a-df21-422c-9e45-ae9b519596f6" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="Pantera09?" database="mule"/>
+	</db:config>
 	<flow name="apexhoursFlow" doc:id="9398cef5-e5ba-4b70-9f23-9bce4c200710" >
 		<http:listener doc:name="My first lister" doc:id="97f2d8ff-3a32-4529-9294-1082d75ea13d" config-ref="HTTP_Listener_config" path="/test"/>
 		<set-variable value="#[attributes.queryParams.city1]" doc:name="cityName1" doc:id="5925d30c-f2d4-4102-b98d-527eb0b51674" variableName="cityName1"/>
@@ -100,6 +104,41 @@ payload.id]]></ee:set-payload>
 output application/json
 ---
 "Success"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="apexhoursFlow3" doc:id="ae9a7647-46e9-4f22-899e-4124c19f66c1" >
+		<http:listener doc:name="DatabaseSelect" doc:id="5f895dae-6015-46e9-85cf-c1ca5785f6b1" config-ref="HTTP_Listener_config" path="/database"/>
+		<db:select doc:name="Select" doc:id="1905afeb-af88-47b3-94eb-e4ff43469422" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM mule.bankdetails;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="066b063c-0bad-4c4e-8500-1f4cd4a016bc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="apexhoursFlow4" doc:id="57ea7630-0ccc-4f19-b262-0830e43244d5" >
+		<http:listener doc:name="Listener" doc:id="b07f501a-f3de-4c1d-a09d-7b42d4dea9b9" config-ref="HTTP_Listener_config" path="/databaseInsert"/>
+		<db:insert doc:name="Insert" doc:id="1295d538-551b-4623-b25c-9dd4f0880ea2" config-ref="Database_Config">
+			<db:sql ><![CDATA[INSERT INTO mule.bankdetails (password, balance, accno, custname)
+VALUES (:password, :balance, :accno, :custname)]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	password: payload.password,
+	balance: payload.amount,
+	accno: payload.accountNumber,
+	custname: payload.username,
+}]]]></db:input-parameters>
+		</db:insert>
+		<ee:transform doc:name="Transform Message" doc:id="2c99a0a7-d59e-4eb6-9b10-0b137e3e96d2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>

@@ -1,4 +1,4 @@
-# Validación en Mule 4
+# Validación
 
 El componente de validación en Mule 4 desempeña un papel crucial al verificar si el contenido de un mensaje cumple con los criterios especificados. Aquí se detallan aspectos importantes sobre su funcionamiento:
 
@@ -73,4 +73,188 @@ En este punto es necesario instalar o tener instalado `MySQL` o cualquier otra b
 
 Además también debemos crear una cuenta de prueba en `Salesforce`
 
-# Tema
+# Conector de Base de Datos
+
+El conector de Base de Datos en Mule 4 facilita la interacción con sistemas de bases de datos, permitiendo realizar operaciones como consultas, actualizaciones, inserciones, y eliminaciones. Aquí se proporcionan detalles clave sobre su configuración y uso:
+
+**Detalles de Configuración Obligatorios:**
+- **Driver:** El controlador JDBC necesario para la conexión con la base de datos.
+- **Host:** La dirección del servidor de la base de datos.
+- **Puerto:** El puerto en el que el servidor de la base de datos está escuchando.
+- **Usuario y Contraseña:** Las credenciales de acceso a la base de datos.
+- **Base de Datos/Servicio/Instancia:** La identificación de la base de datos, servicio o instancia específica.
+- **Texto de Consulta SQL:** La instrucción SQL que se ejecutará en la base de datos.
+
+**Configuración por Defecto:**
+Aunque el texto de la consulta SQL puede estar vacío, es importante tener en cuenta que dejarlo en blanco puede afectar el despliegue de la aplicación. Se recomienda proporcionar una consulta significativa.
+
+**Cambios respecto a Mule 3:**
+En Mule 4, se introdujo un cambio en la estructura del conector de Base de Datos. Mientras que en Mule 3 se utilizaba un único conector con distintas operaciones (Select, Update, Delete, Insert), en Mule 4, se tienen conectores separados para cada operación.
+
+**Prueba de Conexión:**
+El conector de Base de Datos permite realizar una prueba de conexión para verificar la conectividad exitosa con la base de datos antes de la ejecución del flujo.
+
+**Tipo de Salida de la Consulta Select:**
+Cuando se ejecuta una consulta Select, el resultado se presenta en forma de "Array". Si la consulta no devuelve filas, se obtiene un "Array" vacío en lugar de un resultado nulo.
+
+**Ejemplo de Configuración:**
+```xml
+<db:select config-ref="Database_Config" doc:name="Select Data">
+  <db:sql>SELECT * FROM employees WHERE department = #[payload.department]</db:sql>
+</db:select>
+```
+
+En este ejemplo, se utiliza el conector de Base de Datos para realizar una consulta Select que selecciona todos los empleados de un departamento específico.
+
+El conector de Base de Datos en Mule 4 simplifica la interacción con bases de datos, proporcionando una estructura modularizada y fácil de usar para realizar diversas operaciones.
+
+# Actividad, Parte 2
+
+1. Abre `MySQL` y prepara alguna base de datos que contenga alguna tabla, como por ejemplo:
+
+<div align="center">
+    <img src="./img/practica5-ejemplo1.png" alt="pantalla" width="700"/>
+</div>
+
+2. Similar a los `validations` si buscamos en nuestro `Mule Palette` la palabra `Database` nos apareceran multiples conectores, de momento nos interesa `Select`, arrastralo al canvas como un nuevo flujo
+
+3. Agregamos un `Listener` en la parte de `Source` y le colocamos de _Path_: `/database` y en el _Display Name_: `Database`
+
+4. Necesitamos configurar nuestro `Select` de la siguiente manera:
+    1. Damos click en el `+` de `Connector Configuration`, en la ventana que aparece, en `Connection` seleccionamos nuestra base de datos, en este caso `MySQL`. 
+    2. Puede que aparezca el cuadro de texto diciendo `MySQL JDBC Driver Please add the required driver`, de ser asi dar click en `Configure` -> `Add recomended libraries` -> `ok`. 
+    3. En `host` simplemente colocamos `localhost` y en `port` el puesto que tengamos por default en la base de datos que por lo general es el `3306`. 
+    4. El `Username` colocamos el que tengamos en la BDD, por lo general es `root`. En `Password` colocamos nuestra contraseña de nuestra BDD y finalmente en `database` podemos dejarlo en blnaco o colocar el nombre de la que vayamos a usar, pomo por ejemplo en mi caso le colocare `mule`. 
+    5. Da click en `Test Connection` y si todo salio bien dara un mensaje de `Succesful`, de ser asi da click en `ok` para guardar la configuración
+    6. Ahora en `SQL Query Text` debemos colocar algún código que necesitemos en este caso colocaré:
+    ```sql
+    SELECT * FROM mule.bankdetails;
+    ```
+
+5. Seguido del `Select` colocamos un `Transform Message` y colocamos simplemente:
+    ```properties
+    %dw 2.0
+    output application/json
+    ---
+    payload
+    ```
+
+<div align="center">
+    <img src="./img/practica5-ejemplo2.png" alt="pantalla" width="300"/>
+</div>
+
+6. Agregamos un `Breakpoint` al `Select`, guardamos y probamos el programa
+
+7. En caso de que tengas la tabla vacia de tu BDD agrega algún valor como por ejemplo:
+
+<div align="center">
+    <img src="./img/practica5-ejemplo3.png" alt="pantalla" width="600"/>
+</div>
+
+8. Reintenta probar el programa para ver que nos retorna, como en este caso:
+    ```json
+    [
+    {
+        "password": "Pant123",
+        "balance": 123,
+        "accno": "123",
+        "custid": 1,
+        "custname": "LuisTest"
+    }
+    ]
+    ```
+
+9. Agrega otro renglon a la BDD y vuelve a probar, saldra algo similar a esto:
+    ```json
+    [
+    {
+        "password": "Pant123",
+        "balance": 123,
+        "accno": "123",
+        "custid": 1,
+        "custname": "LuisTest"
+    },
+    {
+        "password": "Pent456",
+        "balance": 44,
+        "accno": "456",
+        "custid": 2,
+        "custname": "EmmanuelTest"
+    }
+    ]
+    ```
+
+> [!TIP]
+> Recuerda que con lo aprendido en los bloques de DataWeave podremos modificar como nos debe mostrar la respuesta con el Transform Message
+
+10. Le cambiamos el `Display Name` de nuetro `Listener` a `DatabaseSelect`
+
+11. Creamos un nuevo diagrama, por lo que arrastra un nuevo `Listener` y dale el `Path` de `databaseInsert`
+
+12. Ahora volviendo a buscar `Database` en el `Mule Palette`, selecciona el `Insert` y colocalo a lado del `Listener`
+
+13. Como ya tenemos una configuración para el `Database` solo necesitas dar click en el input select del `Connector Configuration` y seleccionar el que ya creamos previamente
+
+14. En `SQL Query Text` colocamos una query que nos permita **`insertar`** un nuevo valor, como:
+    ```sql
+    INSERT INTO mule.bankdetails (password, balance, accno, custname)
+    VALUES ('pass12', 1234, '9475', 'Valery')
+    ```
+
+15. Pero si lo pensamos un poco, lo ideal sería que dichos valores se puedan aplicar dinamicamente, por ende vamos a realizar unos ajustes, para entender mejor como funcionará haremos lo siguiente:
+    1. Debajo del `SQL Query Text` hay un `Input Parameters` mantenlo a la vista
+    2. Tu Query debes modificarla para que se vea algo similar a esta:
+    ```sql
+    INSERT INTO mule.bankdetails (password, balance, accno, custname)
+    VALUES (:password, :balance, :accno, :custname)
+    ```
+    3. Ahora da click en el _`Fx`_ del `Input Parameters` y escribe un código como este:
+    ```yaml
+    {
+        password: "pass12",
+        balance: 1234,
+        accno: "9475",
+        custname: "Valery",
+    }
+    ```
+
+    > [!IMPORTANT]
+    > Es necesario que los VALUES a los que se les coloco `:` al principo de cada uno sean exactamente los mismos que colocamos en el `Input Parameters` para que funcione correctamente, otro dato es que los VALUES a los que les colocamos el `:` podemos nombrarlos como queramos pero por buenas practicas mantenemos el nombre de las columnas para evitar confusiones
+
+    Con lo realizado ya deberíamos ir captando como es que podemos pasar dinamicamente los valores, pero de momento continuaremos con el ejemplo como lo tenemos
+
+17. Colocamos un `Transform Message` a lado del `Insert` y simplemente modificamos el código para que la salida sea JSON y con el payload como lo hicimos antes
+
+<div align="center">
+    <img src="./img/practica5-ejemplo4.png" alt="pantalla" width="300"/>
+</div>
+
+18. Agrega un `Breakpoint` en el `Insert`, guarda y prueba el programa. Para probarlo recomendría con un POST aun que no estemos mandando algún Body, revisa tu BDD para verificar que esta agregado el nuevo dato, ejemplo de respuesta que da indicando que todo salio bien:
+    ```json
+    {
+    "generatedKeys": {},
+    "affectedRows": 1
+    }
+    ```
+
+19. Ahora modificaremos esto para que ahora si funcione dinamicamente, primero ejemplifiquemos como sera el Body de nuestra petición `POST`:
+    ```json
+    {
+        "username": "Twilight",
+        "account": "123478",
+        "password": "pastwitest",
+        "balace": 637
+    }
+    ```
+
+20. Modificamos los `Input Parameters` del `Insert` quedando de la siguiente manera:
+    ```yaml
+    {
+        password: payload.password,
+        balance: payload.amount,
+        accno: payload.accountNumber,
+        custname: payload.username,
+    }
+    ```
+
+21. Guardamos y probamos para ver que todo este funcionando como esperamos, revisa que la petición retorne el mensaje de exito visto en el paso 18 y revisa tu tabla de la BDD
