@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
-	xmlns:db="http://www.mulesoft.org/schema/mule/db"
-	xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
-http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
-http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8bc3e6b0-3292-4191-96e3-d494a124a8f5" >
 		<http:listener-connection host="0.0.0.0" port="${http.port}" />
 	</http:listener-config>
@@ -22,7 +21,6 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="93cf855e-9632-4942-bebf-80f16ed8f2fe" >
 		<salesforce:basic-connection username="luiseprogramer27@gmail.com" password="Pantera098?" securityToken="bjq3NBvOa0tQkmTylirGO2DAr" />
 	</salesforce:sfdc-config>
-	<file:config name="File_Config" doc:name="File Config" doc:id="5da608ab-10ab-4bd4-9c11-4cd673291916" />
 	<flow name="apexhoursFlow" doc:id="9398cef5-e5ba-4b70-9f23-9bce4c200710" >
 		<http:listener doc:name="My first lister" doc:id="97f2d8ff-3a32-4529-9294-1082d75ea13d" config-ref="HTTP_Listener_config" path="/test"/>
 		<set-variable value="#[attributes.queryParams.city1]" doc:name="cityName1" doc:id="5925d30c-f2d4-4102-b98d-527eb0b51674" variableName="cityName1"/>
@@ -182,12 +180,10 @@ output application/json
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<scatter-gather doc:name="Scatter-Gather" doc:id="fece7c9e-e31d-45d7-b540-3707943af71f" >
-			<route >
-				<db:insert doc:name="Insert" doc:id="64f5254c-0381-484f-9d62-0eab8b1d9c0b" config-ref="Database_Config">
-			<db:sql><![CDATA[INSERT INTO mule.salesforcefields (name, company, status, website, city)
+		<db:insert doc:name="Insert" doc:id="64f5254c-0381-484f-9d62-0eab8b1d9c0b" config-ref="Database_Config">
+			<db:sql ><![CDATA[INSERT INTO mule.salesforcefields (name, company, status, website, city)
 VALUES (:name, :company, :status, :website, :city);]]></db:sql>
-			<db:input-parameters><![CDATA[#[{
+			<db:input-parameters ><![CDATA[#[{
 	name: payload.Name,
     company: payload.Company,
     status: payload.Status,
@@ -195,13 +191,6 @@ VALUES (:name, :company, :status, :website, :city);]]></db:sql>
     city: payload.City
 }]]]></db:input-parameters>
 		</db:insert>
-			</route>
-			<route >
-				<file:write doc:name="Write" doc:id="bc3d6415-19dc-4463-a858-2610ec7b0d21" config-ref="File_Config" path="C:\Users\sps\OneDrive - SPS\Documentos\Cursos\1 - Mulesoft\Codigos\apexhours\extra-files\SalesforceLeads.csv" mode="APPEND">
-					<file:content ><![CDATA[#[output application/csv --- [payload]]]]></file:content>
-				</file:write>
-			</route>
-		</scatter-gather>
 		<logger level="INFO" doc:name="Logger" doc:id="5c0b1727-beb8-4cb7-b041-688f9273ff7e" message="#[payload]"/>
 	</flow>
 </mule>

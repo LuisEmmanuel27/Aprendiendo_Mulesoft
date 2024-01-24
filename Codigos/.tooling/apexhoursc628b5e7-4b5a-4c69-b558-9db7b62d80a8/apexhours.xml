@@ -197,9 +197,7 @@ VALUES (:name, :company, :status, :website, :city);]]></db:sql>
 		</db:insert>
 			</route>
 			<route >
-				<file:write doc:name="Write" doc:id="bc3d6415-19dc-4463-a858-2610ec7b0d21" config-ref="File_Config" path="C:\Users\sps\OneDrive - SPS\Documentos\Cursos\1 - Mulesoft\Codigos\apexhours\extra-files\SalesforceLeads.csv" mode="APPEND">
-					<file:content ><![CDATA[#[output application/csv --- [payload]]]]></file:content>
-				</file:write>
+				<file:write doc:name="Write" doc:id="bc3d6415-19dc-4463-a858-2610ec7b0d21" />
 			</route>
 		</scatter-gather>
 		<logger level="INFO" doc:name="Logger" doc:id="5c0b1727-beb8-4cb7-b041-688f9273ff7e" message="#[payload]"/>
