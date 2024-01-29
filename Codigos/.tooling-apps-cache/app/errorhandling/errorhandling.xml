@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="441bc573-f452-4b9e-a754-9262907c92d3" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="4e623560-4641-4925-867b-b9c7a3872986" />
+	<flow name="errorhandlingFlow" doc:id="ab46a9ba-72d1-42dd-81ef-56bf914c13d8" >
+		<http:listener doc:name="Listener" doc:id="a58bbfd0-ecde-4cdd-9b16-9d35754e7e95" config-ref="HTTP_Listener_config" path="/error1">
+			<http:error-response >
+				<http:body ><![CDATA[#[payload]]]></http:body>
+			</http:error-response>
+		</http:listener>
+		<set-variable value="apple" doc:name="apple" doc:id="4344cd96-6b0a-4edc-a2ca-be135a0279a3" variableName="fruit"/>
+		<flow-ref doc:name="Flow Reference" doc:id="34f0ed50-c96d-449e-a292-17038de11691" name="errorPrivFlowTest1"/>
+		<ee:transform doc:name="SUCCESS" doc:id="2e919a3b-bacc-473e-a586-6acb90e76ac9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"SUCCESS"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="50afcb37-210e-43ef-8047-f9685fa59ff0" message="#[payload]"/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f6331273-4575-454c-8db2-7604a0d179ff" type="ANY">
+				<ee:transform doc:name="Transform Message" doc:id="a18a5198-b026-4c7c-a8e3-8da024d5a60c">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+"Error occured in main flow"]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="7346e023-c9c8-4de6-ad93-05e049a3d1b1" message="#[payload]" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="errorPrivFlowTest1" doc:id="950d7141-936f-44a4-a70f-247b95de5677" >
+		<http:request method="GET" doc:name="Request" doc:id="886c34ef-e955-41d1-ac73-8d6cdb09bd1d" config-ref="HTTP_Request_configuration" url="random.test.com" />
+		<ee:transform doc:name="Transform Message" doc:id="80a00da4-6ff8-4bdf-b3d6-9eca2f1e953e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"Exito en el Private Flow"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="353debb9-2c1b-45cb-a7b3-3c77581312d2" type="ANY">
+				<ee:transform doc:name="Transform Message" doc:id="8608e917-7f9a-4f4a-a814-a2882e3ad585" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"Error Occured in Private Flow"]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="652531bd-9afe-4abc-af79-cee5e0f0986c" message="#[payload]"/>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>
