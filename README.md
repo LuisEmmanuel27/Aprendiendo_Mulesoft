@@ -27,3 +27,5 @@
 ## 11. <a href="./Notas/11_Desarrollando_API_Part5.md">Developing APIs PART 5</a>
 
 ## 12. <a href="./Notas/12_Salesforce_Int_Part1.md">Salesforce Integration using Mulesoft Part 1</a>
+
+## 13. <a href="./Notas/13_Salesforce_Int_Part2.md">Salesforce Integration using Mulesoft Part 2</a>

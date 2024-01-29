@@ -69,3 +69,128 @@ En este ejemplo, `payload` representa los datos que deseas escribir en el archiv
 En resumen, el conector 'Write' del tipo File en MuleSoft proporciona una forma sencilla pero potente de interactuar con archivos en el sistema de archivos, facilitando la creación y actualización de archivos desde tus flujos de integración.
 
 ---
+
+# Salesforce - Query
+
+El conector `Query` de Salesforce en MuleSoft se utiliza para realizar consultas SOQL (Salesforce Object Query Language) a la base de datos de Salesforce y recuperar datos específicos de los objetos. A continuación, proporciono una explicación general sobre cómo se utiliza este conector:
+
+**Funcionalidad Básica:**
+La operación `Query` del conector Salesforce se emplea para ejecutar consultas SOQL y recuperar registros que cumplan con los criterios especificados en la consulta.
+
+**Configuración Requerida:**
+Para utilizar la operación `Query`, necesitas configurar los siguientes elementos:
+
+1. **Consulta SOQL:** Define la consulta SOQL que determinará qué registros se recuperarán. La consulta puede incluir condiciones, filtrado y ordenación.
+
+2. **Objeto de Salesforce:** Indica el objeto de Salesforce del cual deseas recuperar los registros. Por ejemplo, puedes realizar consultas en objetos estándar como 'Account' o en objetos personalizados.
+
+**Ejemplo Práctico:**
+Supongamos que deseas recuperar información sobre todas las cuentas ('Account') en Salesforce cuyo campo 'Type' sea igual a 'Customer'. Puedes utilizar la operación `Query` de la siguiente manera:
+
+```xml
+<salesforce:query config-ref="Salesforce_Config" query="SELECT Id, Name FROM Account WHERE Type = 'Customer'" />
+```
+
+En este ejemplo:
+- `Salesforce_Config` hace referencia a la configuración del conector Salesforce que previamente has definido.
+- La consulta SOQL selecciona los campos 'Id' y 'Name' de las cuentas donde el campo 'Type' es igual a 'Customer'.
+
+**Consideraciones Adicionales:**
+- **Manejo de Resultados:** Después de ejecutar la consulta, los resultados se almacenan generalmente en la carga útil (`payload`) del mensaje Mule. Puedes procesar estos resultados según tus necesidades en el flujo de integración.
+
+- **Parametrización Dinámica:** Puedes parametrizar dinámicamente la consulta SOQL según las variables o datos en tu flujo.
+
+- **Seguridad:** Asegúrate de que las credenciales y configuraciones de autenticación en la configuración del conector Salesforce sean correctas y seguras.
+
+- **Manejo de Errores:** Implementa lógica de manejo de errores para abordar posibles problemas al ejecutar la consulta, como errores de autenticación o consultas mal formadas.
+
+El conector `Query` de Salesforce en MuleSoft es esencial para integraciones que involucran la recuperación de datos específicos desde Salesforce para su procesamiento posterior en el flujo de integración.
+
+---
+
+# Salesforce - Update
+
+El conector `Update` de Salesforce en MuleSoft se utiliza para actualizar registros específicos en la base de datos de Salesforce. A continuación, proporciono una explicación general sobre cómo se utiliza este conector:
+
+**Funcionalidad Básica:**
+La operación `Update` del conector Salesforce permite modificar registros existentes en Salesforce. Puedes actualizar uno o varios campos de un registro en función de ciertos criterios, como el ID del registro.
+
+**Configuración Requerida:**
+Para utilizar la operación `Update`, necesitas configurar los siguientes elementos:
+
+1. **Objeto de Salesforce:** Indica el objeto de Salesforce al que pertenecen los registros que deseas actualizar (por ejemplo, 'Account', 'Contact', etc.).
+
+2. **Registros a Actualizar:** Define los registros que deseas actualizar. Esto suele incluir el ID del registro y los campos que deseas modificar.
+
+**Ejemplo Práctico:**
+Supongamos que deseas actualizar el campo 'Status' de una cuenta en Salesforce donde el 'Account Number' es igual a cierto valor. Puedes utilizar la operación `Update` de la siguiente manera:
+
+```xml
+<salesforce:update config-ref="Salesforce_Config" type="Account">
+    <salesforce:criteria>
+        <salesforce:field column="AccountNumber" operator="equals" value="12345" />
+    </salesforce:criteria>
+    <salesforce:values>
+        <salesforce:field column="Status" value="Active" />
+    </salesforce:values>
+</salesforce:update>
+```
+
+En este ejemplo:
+- `Salesforce_Config` hace referencia a la configuración del conector Salesforce que previamente has definido.
+- Se especifica el objeto 'Account'.
+- En la sección `<salesforce:criteria>`, se define el criterio de búsqueda basado en el 'Account Number'.
+- En `<salesforce:values>`, se especifica el campo 'Status' y el nuevo valor que se asignará.
+
+**Consideraciones Adicionales:**
+- **Manejo de Errores:** Implementa lógica de manejo de errores para abordar posibles problemas al intentar actualizar registros, como falta de permisos o campos no modificables.
+
+- **Seguridad:** Asegúrate de que las credenciales y configuraciones de autenticación en la configuración del conector Salesforce sean correctas y seguras.
+
+- **Registro Único vs. Múltiples Registros:** Puedes utilizar la operación `Update` para actualizar registros individuales o múltiples, dependiendo de tus necesidades.
+
+El conector `Update` de Salesforce en MuleSoft es crucial para integraciones que requieren la capacidad de modificar información específica en Salesforce y mantener la coherencia de los datos.
+
+---
+
+# Salesforce - Upsert
+
+El conector `Upsert` de Salesforce en MuleSoft se utiliza para actualizar registros existentes o insertar nuevos registros en función de un campo externo (no el ID) proporcionado en los datos de entrada. Aquí tienes una explicación general sobre cómo se utiliza:
+
+**Funcionalidad Básica:**
+La operación `Upsert` combina las funcionalidades de 'Update' e 'Insert'. Evalúa si ya existe un registro con el valor proporcionado en el campo externo especificado. Si existe, actualiza ese registro; si no existe, crea un nuevo registro.
+
+**Configuración Requerida:**
+Para utilizar la operación `Upsert`, necesitas configurar los siguientes elementos:
+
+1. **Objeto de Salesforce:** Indica el objeto de Salesforce al que pertenecen los registros que deseas actualizar o insertar.
+
+2. **Campo Externo:** Especifica el campo en el que se basará la operación de `Upsert`. Este campo debe ser único y no ser el ID del registro.
+
+**Ejemplo Práctico:**
+Supongamos que deseas actualizar o insertar una cuenta en Salesforce utilizando el 'Account Number' como el campo externo. Puedes utilizar la operación `Upsert` de la siguiente manera:
+
+```xml
+<salesforce:upsert config-ref="Salesforce_Config" type="Account" externalIdField="AccountNumber">
+    <salesforce:values>
+        <salesforce:field column="AccountNumber" value="12345" />
+        <salesforce:field column="Status" value="Active" />
+        <!-- Otros campos y valores -->
+    </salesforce:values>
+</salesforce:upsert>
+```
+
+En este ejemplo:
+- `Salesforce_Config` hace referencia a la configuración del conector Salesforce que previamente has definido.
+- Se especifica el objeto 'Account'.
+- `externalIdField="AccountNumber"` indica que el campo 'AccountNumber' se utilizará como el campo externo para la operación `Upsert`.
+- En `<salesforce:values>`, se proporcionan los valores que se actualizarán o insertarán.
+
+**Consideraciones Adicionales:**
+- **Manejo de Errores:** Implementa lógica de manejo de errores para abordar posibles problemas al intentar realizar la operación de `Upsert`, como campos externos duplicados.
+
+- **Seguridad:** Asegúrate de que las credenciales y configuraciones de autenticación en la configuración del conector Salesforce sean correctas y seguras.
+
+- **Campo Externo Único:** El campo externo debe ser único en Salesforce para garantizar la correcta identificación de los registros.
+
+La operación `Upsert` es útil en situaciones donde no estás seguro de si el registro ya existe y deseas actualizarlo si es así o crearlo si no lo está, todo basado en un campo externo específico.

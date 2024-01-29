@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:db="http://www.mulesoft.org/schema/mule/db"
-	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
-http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8bc3e6b0-3292-4191-96e3-d494a124a8f5" >
 		<http:listener-connection host="0.0.0.0" port="${http.port}" />
 	</http:listener-config>
@@ -21,6 +22,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="93cf855e-9632-4942-bebf-80f16ed8f2fe" >
 		<salesforce:basic-connection username="luiseprogramer27@gmail.com" password="Pantera098?" securityToken="bjq3NBvOa0tQkmTylirGO2DAr" />
 	</salesforce:sfdc-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="5da608ab-10ab-4bd4-9c11-4cd673291916" />
 	<flow name="apexhoursFlow" doc:id="9398cef5-e5ba-4b70-9f23-9bce4c200710" >
 		<http:listener doc:name="My first lister" doc:id="97f2d8ff-3a32-4529-9294-1082d75ea13d" config-ref="HTTP_Listener_config" path="/test"/>
 		<set-variable value="#[attributes.queryParams.city1]" doc:name="cityName1" doc:id="5925d30c-f2d4-4102-b98d-527eb0b51674" variableName="cityName1"/>
@@ -180,10 +182,12 @@ output application/json
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<db:insert doc:name="Insert" doc:id="64f5254c-0381-484f-9d62-0eab8b1d9c0b" config-ref="Database_Config">
-			<db:sql ><![CDATA[INSERT INTO mule.salesforcefields (name, company, status, website, city)
+		<scatter-gather doc:name="Scatter-Gather" doc:id="fece7c9e-e31d-45d7-b540-3707943af71f" >
+			<route >
+				<db:insert doc:name="Insert" doc:id="64f5254c-0381-484f-9d62-0eab8b1d9c0b" config-ref="Database_Config">
+			<db:sql><![CDATA[INSERT INTO mule.salesforcefields (name, company, status, website, city)
 VALUES (:name, :company, :status, :website, :city);]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{
+			<db:input-parameters><![CDATA[#[{
 	name: payload.Name,
     company: payload.Company,
     status: payload.Status,
@@ -191,6 +195,67 @@ VALUES (:name, :company, :status, :website, :city);]]></db:sql>
     city: payload.City
 }]]]></db:input-parameters>
 		</db:insert>
+			</route>
+			<route >
+				<file:write doc:name="Write" doc:id="bc3d6415-19dc-4463-a858-2610ec7b0d21" config-ref="File_Config" path="C:\Users\sps\OneDrive - SPS\Documentos\Cursos\1 - Mulesoft\Codigos\apexhours\extra-files\SalesforceLeads.csv" mode="APPEND">
+					<file:content ><![CDATA[#[output application/csv --- [payload]]]]></file:content>
+				</file:write>
+			</route>
+		</scatter-gather>
 		<logger level="INFO" doc:name="Logger" doc:id="5c0b1727-beb8-4cb7-b041-688f9273ff7e" message="#[payload]"/>
+	</flow>
+	<flow name="apexhoursFlow7" doc:id="33b1091f-da70-468a-9ba8-fd33bd878a08" >
+		<http:listener doc:name="Listener" doc:id="64a72a02-8bbe-4c54-bd11-ef6b449599c2" config-ref="HTTP_Listener_config" path="/salesforceupdate"/>
+		<ee:transform doc:name="Transform Message" doc:id="9902aeb3-c555-44f9-908b-ad890b1a6ecf" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:update doc:name="Update" doc:id="f8fd76cf-8fc7-403c-a303-23698aeba746" config-ref="Salesforce_Config" type="Account"/>
+		<ee:transform doc:name="Transform Message" doc:id="ced26240-95c2-493c-89e4-c3d1f1928dd9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="apexhoursFlow8" doc:id="f502895b-fa9f-4ab1-a359-356d716ffbb1" >
+		<http:listener doc:name="Listener" doc:id="ac5f5b1c-207a-4c66-8982-6ed8ffea1d99" config-ref="HTTP_Listener_config" path="/salesforcequery"/>
+		<salesforce:query doc:name="Query" doc:id="202bfa68-e7dd-4310-88e9-f063bb2d44df" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query ><![CDATA[SELECT Name, Id, Website FROM Account LIMIT 200]]></salesforce:salesforce-query>
+		</salesforce:query>
+		<ee:transform doc:name="Transform Message" doc:id="4601b315-8f30-42af-868e-49cb98637ae8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="apexhoursFlow9" doc:id="35b81682-fda3-4916-9d63-09e0b347a5df" >
+		<http:listener doc:name="Listener" doc:id="d7b3313a-c9c0-4a89-9f8d-e22020a4d737" config-ref="HTTP_Listener_config" path="/salesforceupsert"/>
+		<ee:transform doc:name="Transform Message" doc:id="8e868658-0a0f-454b-92b4-4987d8ddbc02" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:upsert doc:name="Upsert" doc:id="038df893-048f-40fb-a626-bde8f75f0f90" config-ref="Salesforce_Config" objectType="Account" externalIdFieldName="RolNo__c"/>
+		<ee:transform doc:name="Transform Message" doc:id="ddbb721b-a382-4779-91d7-54dcb66fc24a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
