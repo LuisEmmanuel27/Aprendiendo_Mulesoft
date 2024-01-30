@@ -194,3 +194,122 @@ En este ejemplo:
 - **Campo Externo Único:** El campo externo debe ser único en Salesforce para garantizar la correcta identificación de los registros.
 
 La operación `Upsert` es útil en situaciones donde no estás seguro de si el registro ya existe y deseas actualizarlo si es así o crearlo si no lo está, todo basado en un campo externo específico.
+
+---
+
+# Core - Try
+
+# Conector Core "Try" en Mule 4: Gestión Robusta de Errores
+
+El conector core "Try" en Mule 4 proporciona un entorno controlado para manejar y responder a errores dentro de un flujo de integración. Este conector es especialmente valioso para gestionar excepciones que pueden ocurrir durante la ejecución de conectores o procesadores en un flujo.
+
+## Características Clave:
+
+1. **Envoltura de Procesadores:** El conector "Try" permite envolver procesadores o conectores específicos dentro de su ámbito. Esto significa que los errores generados por estos procesadores se gestionarán dentro del bloque "Try".
+
+2. **Tipos de Manejo de Errores:** Dentro de "Try", se pueden emplear las opciones "On Error Continue" y "On Error Propagate". La elección entre estas opciones determina si el flujo continúa con el siguiente procesador o si propaga el error al siguiente nivel de manejo de errores.
+
+3. **Prioridad en la Jerarquía de Manejo de Errores:** El conector "Try" tiene una prioridad significativa en la jerarquía del manejo de errores. Los errores manejados dentro de este bloque tienen precedencia sobre otros niveles, como el manejo de errores a nivel de flujo, proyecto o predeterminado.
+
+## Ejemplo Práctico:
+
+Supongamos que tenemos un flujo de integración que realiza una llamada a un servicio web externo. Utilizamos el conector "Try" para envolver la llamada al servicio:
+
+```xml
+<flow name="EjemploFlujo" doc:id="0511f88a-f15e-40e1-917b-08cf0c28f7bd">
+    <try doc:name="Try">
+        <!-- Llamada al servicio web externo -->
+        <http:request ...>
+            ...
+        </http:request>
+        <!-- Fin de la llamada al servicio web -->
+        <on-error-continue doc:name="On Error Continue">
+            <!-- Manejo de errores específicos dentro de Try -->
+            ...
+        </on-error-continue>
+    </try>
+</flow>
+```
+
+## Relación con la Jerarquía de Manejo de Errores:
+
+Dentro del bloque "Try", tenemos la flexibilidad de manejar errores de manera específica y personalizada. La elección entre "On Error Continue" y "On Error Propagate" impactará directamente en la continuidad del flujo y cómo se propaga el error a niveles superiores.
+
+El conector "Try" es una herramienta fundamental para garantizar un manejo de errores robusto y específico en Mule 4. Su posición en la jerarquía de manejo de errores le otorga un papel destacado al controlar y responder a excepciones dentro de flujos de integración complejos.
+
+---
+
+# Core - Until Successful
+
+El conector core "Until Successful" en Mule 4 es una herramienta poderosa para gestionar escenarios en los que se requiere una retentativa de una operación hasta que tenga éxito. Este conector ofrece un enfoque efectivo para mejorar la robustez y confiabilidad de las integraciones, especialmente en situaciones donde los fallos temporales pueden ocurrir.
+
+## Características Clave:
+
+1. **Retentativas Automáticas:** "Until Successful" repite la ejecución de los procesadores envueltos hasta que la operación tenga éxito o se alcance un número máximo de intentos.
+
+2. **Configuración de Retentativas:** Se puede configurar el número máximo de retentativas, así como un intervalo de tiempo entre cada intento. Esto permite adaptar el comportamiento de retentativa según los requisitos específicos de la integración.
+
+3. **Manejo de Errores:** El conector "Until Successful" captura errores generados por los procesadores envueltos y decide si se debe intentar nuevamente o si se debe propagar el error según la configuración.
+
+4. **ErrorType Específico:** Al configurar "Until Successful", es posible especificar un ErrorType específico que determina si el error debe desencadenar una retentativa o si debe considerarse un fallo permanente.
+
+## Ejemplo Práctico:
+
+Imaginemos un flujo de integración que realiza la carga de datos a un sistema externo mediante un conector HTTP. Aquí está cómo podemos utilizar "Until Successful":
+
+```yaml
+<flow name="EjemploFlujo" doc:id="a8c1e3ee-0a8f-4b5e-8bb8-ef4362c72a73">
+    <until-successful maxRetries="3" failureExpression="#[error.errorType == 'HTTP:TIMEOUT']" doc:name="Until Successful">
+        <!-- Procesador que realiza la carga de datos mediante HTTP -->
+        <http:request ...>
+            ...
+        </http:request>
+        <!-- Fin del procesador HTTP -->
+    </until-successful>
+</flow>
+```
+
+## Relación con la Jerarquía de Manejo de Errores:
+
+"Until Successful" opera en un nivel más específico, centrado en gestionar errores en el contexto de retentativas. Sin embargo, su relación con otros bloques de manejo de errores, como "Try", es complementaria. "Until Successful" proporciona una capa adicional de control en situaciones donde los errores pueden resolverse mediante retentativas automáticas.
+
+El conector core "Until Successful" es una herramienta valiosa para mejorar la resiliencia de las integraciones al permitir retentativas automáticas. Su capacidad para adaptarse a distintos escenarios y configuraciones lo convierte en una elección estratégica para enfrentar desafíos temporales en operaciones de integración.
+
+---
+
+# Core - Error Handler
+
+El conector "Error Handler" en Mule 4 se utiliza para capturar y manejar errores de manera personalizada en un flujo. Este conector permite definir bloques de manejo de errores específicos para diferentes tipos de errores o excepciones que pueden ocurrir durante la ejecución del flujo. Al utilizar el conector "Error Handler", puedes diseñar lógica especializada para gestionar situaciones imprevistas, como problemas de conectividad, errores de autenticación o cualquier otro escenario que pueda surgir.
+
+## Principales características del conector "Error Handler":
+
+1. **Definición de Bloques de Manejo de Errores**: Puedes crear bloques específicos para manejar diferentes tipos de errores. Esto proporciona una manera organizada de abordar situaciones particulares.
+
+2. **Personalización de Respuestas**: Para cada bloque de manejo de errores, puedes personalizar la respuesta que se envía en caso de que ocurra un error específico. Esto permite una respuesta adaptada al contexto del error.
+
+3. **Jerarquía de Manejo de Errores**: El conector "Error Handler" sigue una jerarquía para el manejo de errores, permitiendo la definición de bloques específicos a nivel de flujo, subflujo o global.
+
+4. **Configuración de Error Type**: Puedes configurar bloques de manejo de errores según el tipo de error que se desea capturar, identificado por su "Error Type".
+
+5. **Condiciones Personalizadas**: Además de los bloques de manejo de errores basados en el tipo de error, se pueden establecer condiciones personalizadas para determinar cuándo se activa un bloque específico.
+
+## Ejemplo de uso:
+
+```yaml
+<error-handler>
+    <on-error-type>
+        <error-type-1> <!-- Configuración del tipo de error -->
+            <!-- Lógica y respuesta personalizada para el error-type-1 -->
+        </error-type-1>
+    </on-error-type>
+    <on-error>
+        <!-- Bloque de manejo de errores para cualquier otro error no especificado -->
+        <!-- Lógica y respuesta personalizada para otros errores -->
+    </on-error>
+</error-handler>
+```
+
+En resumen, el conector "Error Handler" proporciona una forma estructurada y flexible de gestionar errores en un flujo de Mule 4, permitiendo adaptar las respuestas y acciones según las condiciones específicas de cada tipo de error.
+
+---
+

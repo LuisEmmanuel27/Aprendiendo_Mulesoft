@@ -31,3 +31,5 @@
 ## 13. <a href="./Notas/13_Salesforce_Int_Part2.md">Salesforce Integration using Mulesoft Part 2</a>
 
 ## 14. <a href="./Notas/14_ Error_Handling_Part1.md">Error Handling in Mule 4 Mulesoft Part 1</a>
+
+## 15. <a href="./Notas/15_ Error_Handling_Part2.md">Error Handling in Mule 4 Mulesoft Part 2</a>

@@ -1,4 +1,4 @@
-# Error Handling in Mule 4 Mulesoft
+# Manejo de Errores en Mule 4 Mulesoft
 
 El manejo de errores en Mule 4 de MuleSoft es una parte esencial de la construcción de integraciones robustas y confiables. Permite a los desarrolladores anticipar y gestionar posibles situaciones imprevistas durante la ejecución de flujos y subflujos. Al implementar estrategias efectivas de manejo de errores, los desarrolladores pueden mejorar la resiliencia de sus aplicaciones, garantizando respuestas controladas y descriptivas en caso de fallos. Desde la identificación de excepciones hasta la ejecución de acciones específicas frente a situaciones de error, el manejo de errores en Mule 4 es una herramienta poderosa para garantizar la estabilidad y el rendimiento de las integraciones.
 
