@@ -33,3 +33,5 @@
 ## 14. <a href="./Notas/14_ Error_Handling_Part1.md">Error Handling in Mule 4 Mulesoft Part 1</a>
 
 ## 15. <a href="./Notas/15_ Error_Handling_Part2.md">Error Handling in Mule 4 Mulesoft Part 2</a>
+
+## 16. <a href="./Notas/16_Desarrollando_API_Part6.md">Developing APIs PART 6</a>

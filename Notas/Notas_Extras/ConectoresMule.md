@@ -199,8 +199,6 @@ La operación `Upsert` es útil en situaciones donde no estás seguro de si el r
 
 # Core - Try
 
-# Conector Core "Try" en Mule 4: Gestión Robusta de Errores
-
 El conector core "Try" en Mule 4 proporciona un entorno controlado para manejar y responder a errores dentro de un flujo de integración. Este conector es especialmente valioso para gestionar excepciones que pueden ocurrir durante la ejecución de conectores o procesadores en un flujo.
 
 ## Características Clave:
@@ -313,3 +311,29 @@ En resumen, el conector "Error Handler" proporciona una forma estructurada y fle
 
 ---
 
+# Core - Parallele For Each
+
+El componente "Parallel For Each" en Mule 4 permite realizar iteraciones en paralelo sobre una colección de datos, lo que significa que puede procesar múltiples elementos de la colección simultáneamente. Aquí tienes una explicación completa y fácil de entender sobre "Parallel For Each":
+
+## Configuración
+
+- Similar al "For Each", no se requiere configuración obligatoria.
+- Al igual que el "For Each", si no se especifica ninguna colección en la pestaña "Collection", toma la carga útil (payload) como colección. El tamaño del lote (batch size) también es 1 por defecto.
+
+## Aspectos Clave
+
+1. **Procesamiento en Paralelo**: A diferencia del "For Each" que itera secuencialmente, el "Parallel For Each" procesa elementos de la colección en paralelo. Cada elemento se maneja en su propia ejecución concurrente.
+
+2. **Ventajas de Paralelismo**: Esta funcionalidad es útil cuando tienes una gran cantidad de datos y deseas procesarlos de manera eficiente. Permite aprovechar la capacidad de procesamiento multicore para acelerar la ejecución.
+
+3. **Configuración Adicional**: Aunque no es obligatorio, puedes configurar el tamaño del lote (batch size) para controlar cuántos elementos se procesan simultáneamente. Esto puede ser útil para evitar la sobrecarga si estás trabajando con recursos limitados.
+
+### Ejemplo de Uso
+```xml
+<parallel-foreach collection="#[payload]" doc:name="Parallel For Each">
+    <!-- Configuración de Parallel For Each -->
+    <logger level="INFO" message="Processing #[payload]" />
+</parallel-foreach>
+```
+
+En resumen, el componente "Parallel For Each" es valioso cuando se necesita procesar elementos de una colección de manera paralela, mejorando la eficiencia y el rendimiento. La configuración es sencilla, y su uso es beneficioso en escenarios donde el paralelismo puede marcar la diferencia en la velocidad de ejecución.
