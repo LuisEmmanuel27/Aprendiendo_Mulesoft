@@ -337,3 +337,66 @@ El componente "Parallel For Each" en Mule 4 permite realizar iteraciones en para
 ```
 
 En resumen, el componente "Parallel For Each" es valioso cuando se necesita procesar elementos de una colección de manera paralela, mejorando la eficiencia y el rendimiento. La configuración es sencilla, y su uso es beneficioso en escenarios donde el paralelismo puede marcar la diferencia en la velocidad de ejecución.
+
+---
+
+# Core - Batch Job, Batch Aggregator y Batch Step
+
+1. **Batch Job:**
+   - **Función:**
+     - El componente principal que define y configura el trabajo de procesamiento por lotes.
+     - Incluye la especificación del nombre del trabajo, la lógica de procesamiento por lotes y las acciones en la fase "On-Complete".
+   - **Ejemplo de Configuración:**
+     ```yaml
+     <batch:job name="sampleBatchJob">
+         <!-- Configuración del Proceso por Lotes -->
+         <batch:process-records>
+             ...
+         </batch:process-records>
+         <!-- Acciones en la Fase de On-Complete -->
+         <batch:on-complete>
+             ...
+         </batch:on-complete>
+     </batch:job>
+     ```
+
+2. **Batch Aggregator:**
+   - **Función:**
+     - Se utiliza para agregar y consolidar los resultados individuales de cada registro procesado en la fase de "On-Complete".
+     - Permite realizar acciones específicas con los resultados agregados.
+   - **Ejemplo de Configuración:**
+     ```yaml
+     <batch:aggregator>
+         <!-- Lógica de Agregación -->
+         <logger level="INFO" message="Aggregated Results: #[payload]" />
+     </batch:aggregator>
+     ```
+
+3. **Batch Step:**
+   - **Función:**
+     - Define un paso específico dentro de un trabajo de procesamiento por lotes.
+     - Permite la ejecución de acciones particulares en cada registro y especifica el comportamiento en caso de éxito o error.
+   - **Ejemplo de Configuración:**
+     ```yaml
+     <batch:step name="sampleBatchStep">
+         <!-- Lógica del Paso por Lotes -->
+         <logger level="INFO" message="Processing record #[payload]" />
+     </batch:step>
+     ```
+
+## Relación entre Componentes
+
+- Un **Batch Job** puede contener uno o varios **Batch Steps**, donde cada paso representa una acción específica en el procesamiento por lotes.
+- El **Batch Aggregator** se utiliza en la fase "On-Complete" del Batch Job para consolidar los resultados individuales y ejecutar acciones específicas con ellos.
+
+## Ejemplo de Flujo de Procesamiento por Lotes
+
+1. El **Batch Job** define el trabajo de procesamiento por lotes.
+2. Dentro del Batch Job, varios **Batch Steps** especifican las acciones a realizar en cada registro.
+3. En la fase "On-Complete", el **Batch Aggregator** consolida y procesa los resultados individuales.
+
+## Observación Importante
+
+La configuración detallada y la lógica específica dentro de cada componente dependen de los requisitos y la lógica de procesamiento específicos del escenario de uso.
+
+---

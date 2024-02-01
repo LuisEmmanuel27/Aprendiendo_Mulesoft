@@ -133,3 +133,34 @@ El procesamiento por lotes es una característica especial de Mule que nos permi
 En resumen, el procesamiento por lotes en Mule 4 es una herramienta poderosa para manejar conjuntos de datos extensos de manera eficiente y asincrónica. Permite la ejecución de acciones en cada registro y proporciona informes detallados en la fase de "On-Complete". Su capacidad multihilo lo convierte en una opción eficaz para tareas que involucran grandes volúmenes de datos.
 
 # Actividad, Parte 2
+
+1. Agregamos un nuevo `Listener` a nuestro canvas con el `Path`: `/batchtest`
+
+2. Seguido del `Listener` agregamos un `Batch Job`
+
+> [!NOTE]
+> Si quieres saber más sobre los componentes Batch da click [aqui](./Notas_Extras/ConectoresMule.md/#core---batch-job-batch-aggregator-y-batch-step)
+
+3. Nos aparecerá una oción de `Max Failed Records` dale el valor de 2
+
+4. Notesé que el `Batch Job` tenemos dos secciones `Processors` y `Aggregator`, en la sección de `Processors` agrega un `Set Payload` y dale el `Value` de: `[# payload + 10 ]`
+
+5.  Mientras que en el `Aggregator` coloca un `Batch Aggregator`
+
+6.  En su `Aggregator Size` coloca un 2
+
+7.  Dentro de dicho componente coloca un `Logger` cuyo `Message` será simplemente: `[# payload ]`
+
+8.  Copia y pega dicho `Logger` en la parte de `On Complete`
+
+9.  Coloca un `Breakpoint` en el `Batch Step`
+
+<div align="center">
+    <img src="./img/practica10-ejemplo4.png" alt="ejemplo" width="500">
+</div>
+
+10. Guardamos y probamos el programa mando una solicitud como lo hicimos _En el paso 8 de la Actividad Parte 1_ y obserba como se comporta, procura que sea en el modo `debug` y revisa también lo que sucede si al `array` de la solicitud le agregas un caracter
+
+11. Ahora modifica el `Message` del `Logger` que esta dentro del `Batch Aggregator` con: `[# write(payload, 'application/json') ]`
+
+12. Guarda y vuelve a probar el programa

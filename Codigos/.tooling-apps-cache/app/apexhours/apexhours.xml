@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
-	xmlns:db="http://www.mulesoft.org/schema/mule/db"
-	xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
-http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8bc3e6b0-3292-4191-96e3-d494a124a8f5" >
 		<http:listener-connection host="0.0.0.0" port="${http.port}" />
 	</http:listener-config>
@@ -262,12 +263,28 @@ payload]]></ee:set-payload>
 		<http:listener doc:name="Listener" doc:id="b055f5a8-f57a-482d-aa9e-0ad09e225ecc" config-ref="HTTP_Listener_config" path="/foreach"/>
 		<set-payload value="#[payload]" doc:name="[1,2,3,4,5]" doc:id="34eef3de-0faa-46f5-a095-91e99ec9b328" />
 		<set-variable value="#[[]]" doc:name="Init finalPayload" doc:id="8ea35376-1478-4ee1-906e-586e46112947" variableName="finalPayload"/>
-		<parallel-foreach doc:name="Parallel For Each" doc:id="0ad0aa0a-ceed-4fb7-8873-7a0399763aa8" target="finalPayload">
+		<foreach doc:name="For Each" doc:id="036ff4c7-31fc-4bdd-9db2-a8e619719f67" collection="#[payload]">
 			<set-payload value="#[payload + 10]" doc:name="Set Payload" doc:id="7f169d06-68a2-4a34-9e1b-eec9e1c377e7" />
 			<logger level="INFO" doc:name="Logger" doc:id="b60c5596-42b9-47ad-b709-ea2c508ed89f" message='#["For each inside payload value is ::: " ++ payload]' />
 			<set-variable value="#[output application/json --- vars.finalPayload + payload]" doc:name="finalPayload" doc:id="e570b5a1-5fb8-4be0-94cf-7313e1cfb09c" variableName="finalPayload" />
-		</parallel-foreach>
+		</foreach>
 		<set-payload value="#[vars.finalPayload]" doc:name="Set Payload" doc:id="20d5c9a2-14a8-4133-9ba0-6c8e8a141b27" />
 		<logger level="INFO" doc:name="Logger" doc:id="7388ae31-3afe-48fa-afeb-a6f83a52313d" message="#[payload]"/>
+	</flow>
+	<flow name="apexhoursFlow11" doc:id="06fcfe7e-5906-4ee8-99aa-57e53996748e" >
+		<http:listener doc:name="Listener" doc:id="35f36826-37d6-4b19-b048-775e180f7321" config-ref="HTTP_Listener_config" path="/batchtest"/>
+		<batch:job jobName="apexhoursBatch_Job" doc:id="ff462d4a-9c83-41db-8ddc-7cfbcb400402" maxFailedRecords="2">
+			<batch:process-records >
+				<batch:step name="Batch_Step" doc:id="8d96bf4a-a223-40cc-97d8-cffbf0e45f41" >
+					<set-payload value="#[payload + 10]" doc:name="Set Payload" doc:id="66e941dc-a8f5-4843-83cd-128855eff78f" />
+					<batch:aggregator doc:name="Batch Aggregator" doc:id="10e45b64-3299-4d82-888a-ddeed697fe6d" size="2">
+						<logger level="INFO" doc:name="Logger" doc:id="b36cb21b-f40a-4b89-b27e-1f2d847e2820" message="#[write(payload, 'application/json')]"/>
+					</batch:aggregator>
+				</batch:step>
+			</batch:process-records>
+			<batch:on-complete>
+				<logger level="INFO" doc:name="Logger" doc:id="9b769903-1f11-4229-be09-734e0d876ca8" message="#[payload]"/>
+			</batch:on-complete>
+		</batch:job>
 	</flow>
 </mule>
