@@ -36,4 +36,4 @@
 
 ## 16. <a href="./Notas/16_Desarrollando_API_Part6.md">Developing APIs PART 6</a>
 
-## 16. <a href="./Notas/17_Desarrollando_API_Part7.md">Developing APIs PART 7</a>
+## 17. <a href="./Notas/17_Desarrollando_API_Part7.md">Developing APIs PART 7</a>
