@@ -208,4 +208,4 @@
 
 ---
 
-# Guía básica de Mule basada en la siguiente playlist de youtube: [ver playlist](https://www.youtube.com/playlist?list=PL61bQcdxsK6_f5GDV3f2STtMTS3nYIlYO)
+# Guía básica de Mule basada en la siguiente playlist de YouTube: [ver playlist](https://www.youtube.com/playlist?list=PL61bQcdxsK6_f5GDV3f2STtMTS3nYIlYO)
