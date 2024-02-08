@@ -1,8 +1,13 @@
 # Aprendiendo MuleSoft
 
+Guía básica de Mule basada en la siguiente playlist de YouTube: [ver playlist](https://www.youtube.com/playlist?list=PL61bQcdxsK6_f5GDV3f2STtMTS3nYIlYO)
+
 <div align="center">
     <img src="./Notas/img/MuleSoft-Logo.png" alt="logo" width="600"/>
 </div>
+
+> [!WARNING]
+> No se recomienda hacer uso de los archivos de la carpeta `Codigos`, podría haber problemas por falta de archivos
 
 ## 1. <a href="./Notas/1_Introduccion.md">Introducción</a>
 
@@ -207,5 +212,3 @@
 ### 17.2 <a href="./Notas/17_Desarrollando_API_Part7.md/#actividad-parte-1">Actividades de despliegue de APIs</a>
 
 ---
-
-# Guía básica de Mule basada en la siguiente playlist de YouTube: [ver playlist](https://www.youtube.com/playlist?list=PL61bQcdxsK6_f5GDV3f2STtMTS3nYIlYO)
