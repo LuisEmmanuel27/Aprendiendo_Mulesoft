@@ -53,11 +53,9 @@ Guía básica de Mule basada en la siguiente playlist de YouTube: [ver playlist]
 
 ### 4.4 <a href="./Notas/4_Desarrollando_API_Part1.md/#flujos-en-mule-4-flow-sub-flow-y-private-flow">Flujos en Mule 4: Flow, Sub-Flow y Private Flow</a>
 
-### 4.5 <a href="./Notas/4_Desarrollando_API_Part1.md/#flujos-en-mule-4-flow-sub-flow-y-private-flow">Flujos en Mule 4: Flow, Sub-Flow y Private Flow</a>
+### 4.5 <a href="./Notas/4_Desarrollando_API_Part1.md/#conectores-connectors">Conectores</a>
 
-### 4.6 <a href="./Notas/4_Desarrollando_API_Part1.md/#conectores-connectors">Conectores</a>
-
-### 4.7 <a href="./Notas/4_Desarrollando_API_Part1.md/#actividad-parte-1">AnypointStudio: Primeros conectores</a>
+### 4.6 <a href="./Notas/4_Desarrollando_API_Part1.md/#actividad-parte-2">AnypointStudio: Primeros conectores</a>
 
 ---
 
@@ -65,17 +63,15 @@ Guía básica de Mule basada en la siguiente playlist de YouTube: [ver playlist]
 
 ### 5.1 <a href="./Notas/5_Desarrollando_API_Part2.md/#flow-reference-connector">Flow Reference Connector</a>
 
-### 5.2 <a href="./Notas/5_Desarrollando_API_Part2.md/#flow-reference-connector">Flow Reference Connector</a>
+### 5.2 <a href="./Notas/5_Desarrollando_API_Part2.md/#actividad-parte-1">AnypointStudio: Flow y Debug</a>
 
-### 5.3 <a href="./Notas/5_Desarrollando_API_Part2.md/#actividad-parte-1">AnypointStudio: Flow y Debug</a>
+### 5.3 <a href="./Notas/5_Desarrollando_API_Part2.md/#variable-connector">Variable Connector</a>
 
-### 5.4 <a href="./Notas/5_Desarrollando_API_Part2.md/#variable-connector">Variable Connector</a>
+### 5.4 <a href="./Notas/5_Desarrollando_API_Part2.md/#actividad-parte-2">AnypointStudio: Set Variable</a>
 
-### 5.5 <a href="./Notas/5_Desarrollando_API_Part2.md/#actividad-parte-2">AnypointStudio: Set Variable</a>
+### 5.5 <a href="./Notas/5_Desarrollando_API_Part2.md/#logger-component">Logger Component</a>
 
-### 5.6 <a href="./Notas/5_Desarrollando_API_Part2.md/#logger-component">Logger Component</a>
-
-### 5.7 <a href="./Notas/5_Desarrollando_API_Part2.md/#actividad-parte-3">AnypointStudio: Logger</a>
+### 5.6 <a href="./Notas/5_Desarrollando_API_Part2.md/#actividad-parte-3">AnypointStudio: Logger</a>
 
 ---
 
