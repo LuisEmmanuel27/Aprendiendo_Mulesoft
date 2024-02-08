@@ -128,9 +128,10 @@ El procesamiento por lotes es una característica especial de Mule que nos permi
 ```
 
 ## Resultado en la Fase de On-Complete
+
 - En la fase "On-Complete", se obtiene un informe con estadísticas detalladas del procesamiento del lote, incluyendo el número de registros procesados, exitosos y fallidos.
 
-En resumen, el procesamiento por lotes en Mule 4 es una herramienta poderosa para manejar conjuntos de datos extensos de manera eficiente y asincrónica. Permite la ejecución de acciones en cada registro y proporciona informes detallados en la fase de "On-Complete". Su capacidad multihilo lo convierte en una opción eficaz para tareas que involucran grandes volúmenes de datos.
+Resumiendo, el procesamiento por lotes en Mule 4 es una herramienta poderosa para manejar conjuntos de datos extensos de manera eficiente y asincrónica. Permite la ejecución de acciones en cada registro y proporciona informes detallados en la fase de "On-Complete". Su capacidad multihilo lo convierte en una opción eficaz para tareas que involucran grandes volúmenes de datos.
 
 # Actividad, Parte 2
 

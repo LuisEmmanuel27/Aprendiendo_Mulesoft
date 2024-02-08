@@ -38,7 +38,7 @@ Puede estar escrita en diferentes formatos, siendo Swagger/OpenAPI, RAML, y Grap
 
 Una especificación de API es esencial para promover la interoperabilidad entre sistemas y facilitar la colaboración entre desarrolladores y consumidores de la API. Además, sirve como una herramienta valiosa para la documentación, la prueba automatizada y el mantenimiento a lo largo del ciclo de vida de la API.
 
-# Ejemplo práctico
+# Actividad, Parte 1
 
 1. Creamos en el `Design Center` una nueva `API Specification`
 

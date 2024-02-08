@@ -1,7 +1,3 @@
-# Developing APIs PART 2
-
-Continuando con lo realizado en la parte 1...
-
 # Flow Reference Connector
 
 El conector "Flow Reference" en Mule 4 es como el mensajero interno de tu aplicación. Su función es dirigir el flujo del mensaje hacia otro lugar específico en tu aplicación. Puedes pensar en él como el encargado de "llamar a otro equipo" dentro de tu aplicación para que realice una tarea específica.
@@ -77,7 +73,7 @@ En este ejemplo, cuando el mensaje llega al "Flow Reference" llamado "equipoVent
 
 # Variable Connector
 
-En Mule 4, la variable principal es simplemente llamada "variable." Puedes pensar en ella como un pequeño espacio de almacenamiento temporal dentro de tu aplicación, como una nota adhesiva donde puedes escribir información importante. Esta variable te permite guardar y acceder a valores a medida que el mensaje viaja a través de los diferentes componentes de tu flujo.
+En Mule 4, la variable principal es simplemente llamada `variable` Puedes pensar en ella como un pequeño espacio de almacenamiento temporal dentro de tu aplicación, como una nota adhesiva donde puedes escribir información importante. Esta variable te permite guardar y acceder a valores a medida que el mensaje viaja a través de los diferentes componentes de tu flujo.
 
 **Ejemplo Simplificado:**
 Imagina que estás manejando un paquete que pasa por diferentes habitaciones en tu aplicación. La "variable" es como un pequeño casillero en cada habitación. Cuando necesitas dejar algo (un valor) para que el próximo equipo lo vea, simplemente lo colocas en ese casillero. Luego, cuando el mensaje pasa a la siguiente habitación, el equipo allí puede revisar lo que guardaste.

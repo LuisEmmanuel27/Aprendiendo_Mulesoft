@@ -37,22 +37,27 @@ En resumen, Salesforce se ha convertido en un pilar fundamental para muchas orga
 
 La integración con Salesforce en Mule 4 permite conectar y realizar operaciones con la plataforma Salesforce, que es ampliamente utilizada para la gestión de relaciones con clientes (CRM). Aquí se abordan aspectos clave de la integración:
 
-**Conector Salesforce:**
+## Conector Salesforce:
+
 Mule 4 cuenta con un conector específico para Salesforce, que simplifica la interacción con las API de Salesforce. Este conector proporciona operaciones para realizar consultas, insertar, actualizar y eliminar registros, así como para invocar acciones personalizadas en Salesforce.
 
-**Detalles de Configuración:**
+## Detalles de Configuración:
+
 La configuración del conector Salesforce requiere detalles esenciales, como el nombre de usuario, la contraseña, el token de seguridad, y el ID del consumidor y secreto del consumidor, que se obtienen al registrar la aplicación en Salesforce. Estos detalles garantizan una conexión segura y autenticada.
 
-**Operaciones Comunes:**
+## Operaciones Comunes:
+
 - **Consulta (Query):** Permite recuperar datos de objetos en Salesforce utilizando lenguaje SQL-like SOQL.
 - **Inserción (Insert):** Agrega nuevos registros a un objeto específico en Salesforce.
 - **Actualización (Update):** Modifica los valores de registros existentes en Salesforce.
 - **Eliminación (Delete):** Borra registros de un objeto en Salesforce.
 
-**Streaming y Eventos:**
+## Streaming y Eventos:
+
 Mule 4 ofrece capacidades de streaming que permiten manejar grandes volúmenes de datos al integrarse con Salesforce. Además, se pueden configurar eventos de Salesforce para recibir notificaciones en tiempo real sobre cambios en los datos.
 
-**Ejemplo de Operación:**
+## Ejemplo de Operación:
+
 ```xml
 <salesforce:query config-ref="Salesforce_Config" query="SELECT Id, Name FROM Account WHERE Industry = 'Technology'" doc:name="Salesforce Query"/>
 ```

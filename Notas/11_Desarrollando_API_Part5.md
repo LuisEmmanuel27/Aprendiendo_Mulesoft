@@ -77,7 +77,8 @@ Además también debemos crear una cuenta de prueba en `Salesforce`
 
 El conector de Base de Datos en Mule 4 facilita la interacción con sistemas de bases de datos, permitiendo realizar operaciones como consultas, actualizaciones, inserciones, y eliminaciones. Aquí se proporcionan detalles clave sobre su configuración y uso:
 
-**Detalles de Configuración Obligatorios:**
+## Detalles de Configuración Obligatorios:
+
 - **Driver:** El controlador JDBC necesario para la conexión con la base de datos.
 - **Host:** La dirección del servidor de la base de datos.
 - **Puerto:** El puerto en el que el servidor de la base de datos está escuchando.
@@ -85,19 +86,20 @@ El conector de Base de Datos en Mule 4 facilita la interacción con sistemas de 
 - **Base de Datos/Servicio/Instancia:** La identificación de la base de datos, servicio o instancia específica.
 - **Texto de Consulta SQL:** La instrucción SQL que se ejecutará en la base de datos.
 
-**Configuración por Defecto:**
+## Configuración por Defecto:
+
 Aunque el texto de la consulta SQL puede estar vacío, es importante tener en cuenta que dejarlo en blanco puede afectar el despliegue de la aplicación. Se recomienda proporcionar una consulta significativa.
 
-**Cambios respecto a Mule 3:**
+## Cambios respecto a Mule 3:
 En Mule 4, se introdujo un cambio en la estructura del conector de Base de Datos. Mientras que en Mule 3 se utilizaba un único conector con distintas operaciones (Select, Update, Delete, Insert), en Mule 4, se tienen conectores separados para cada operación.
 
-**Prueba de Conexión:**
+## Prueba de Conexión:
 El conector de Base de Datos permite realizar una prueba de conexión para verificar la conectividad exitosa con la base de datos antes de la ejecución del flujo.
 
-**Tipo de Salida de la Consulta Select:**
+## Tipo de Salida de la Consulta Select:
 Cuando se ejecuta una consulta Select, el resultado se presenta en forma de "Array". Si la consulta no devuelve filas, se obtiene un "Array" vacío en lugar de un resultado nulo.
 
-**Ejemplo de Configuración:**
+## Ejemplo de Configuración:
 ```xml
 <db:select config-ref="Database_Config" doc:name="Select Data">
   <db:sql>SELECT * FROM employees WHERE department = #[payload.department]</db:sql>

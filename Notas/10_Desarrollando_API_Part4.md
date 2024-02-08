@@ -1,4 +1,4 @@
-# Consideraciones Importantes al Conectar con Sistemas Externos
+# Conectar con Sistemas Externos
 
 Conectar con sistemas externos, ya sean bases de datos, Salesforce, SFTP o cualquier servicio web externo, requiere una atención cuidadosa y una comprensión detallada. Aquí hay aspectos clave a tener en cuenta:
 

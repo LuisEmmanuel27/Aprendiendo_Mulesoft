@@ -1,4 +1,4 @@
-# ¿Cuándo y cómo usar `resourcesTypes`?
+# ResourceTypes
 
 Los `resourceTypes` en RAML son una poderosa herramienta para definir tipos de recursos que pueden ser reutilizados en toda la especificación de la API. Su uso se centra en evitar la redundancia de código y simplificar el mantenimiento de la especificación. Aquí proporcionaremos detalles adicionales sobre cuándo y cómo aprovechar al máximo los `resourceTypes`:
 
@@ -55,7 +55,7 @@ Al aplicar este `resourceType`, puedes personalizar el parámetro `customParamet
 
 En resumen, `resourceTypes` en RAML son una herramienta fundamental para promover la reutilización y coherencia en la especificación de una API. Al entender cuándo y cómo utilizarlos, los desarrolladores pueden optimizar el diseño y mantenimiento de la API, asegurando consistencia y eficiencia en todo el desarrollo.
 
-# Ejemplo práctico
+# Actividad, Parte 1
 
 1. Volvemos a nuestro proyecto de `bank-sys-api-ex`
 
@@ -178,7 +178,7 @@ En este ejemplo, el trait `paginationTrait` se aplica al recurso `/paginatedReso
 
 Los traits en RAML ofrecen una forma efectiva de modularizar y estandarizar comportamientos comunes en una API, promoviendo la reutilización de código y la coherencia en toda la especificación. Al comprender cuándo y cómo utilizarlos, los desarrolladores pueden mejorar la mantenibilidad y la consistencia de sus especificaciones de API.
 
-# Ejemplo práctico
+# Actividad, Parte 2
 
 1. Justo debajo del `resourceType` crearemos nuestro `trait`
 
@@ -238,98 +238,93 @@ Los traits en RAML ofrecen una forma efectiva de modularizar y estandarizar comp
 
 9. Revisamos en `Documentation` que todo vaya en orden
 
-# Definir un esquema usando `Data Types`
+# Actividad, Parte 3
 
 1. En el botón `+` crearemos un nuevo `file`, el cuál tendra el nombre de `createAccountRequirements` y sera de tipo `Data Type`
 
 2. Dentro del archivo agregamos el siguiente código:
 
-```yaml
-type: object
-properties:
-  accountNumber: number
-  address:
-    type: array
-    items:
-      properties:
-        typeOfAddress:
-          type: string
-          enum:
-            - "home"
-            - "work"
-        city:
-          type: string
-          minLength: 3
-          maxLength: 15
-        zip:
-          type: number
-          minimum: 0000
-          maximum: 9999
-```
-
-#### Explicación:
-
-> [!NOTE]
-> Pendiente
+  ```yaml
+  type: object
+  properties:
+    accountNumber: number
+    address:
+      type: array
+      items:
+        properties:
+          typeOfAddress:
+            type: string
+            enum:
+              - "home"
+              - "work"
+          city:
+            type: string
+            minLength: 3
+            maxLength: 15
+          zip:
+            type: number
+            minimum: 0000
+            maximum: 9999
+  ```
 
 3. Modificamos el `/createAccount` de la siguiente manera:
 
-```yaml
-/createAccount:
-  description: "To create a new account"
-  post:
-    queryParameters:
-      branch: string
-    is:
-      - {typeOfVerification : {typeOfOtp: "emailOtp"}}
-    body:
-      application/json:
-        type: !include createAccountRequeriments.raml
-        example:
-          {
-            "accountNumber": 1234,
-            "address": [{
-              "typeOfAddress": "home",
-              "city": "edomex",
-              "zip": 1234
-            }]
-          }
-    responses:
-      201:
-        body:
-          application/json:
-            example:
-              {
-                "message": "Account created!"
-              }
-```
+  ```yaml
+  /createAccount:
+    description: "To create a new account"
+    post:
+      queryParameters:
+        branch: string
+      is:
+        - {typeOfVerification : {typeOfOtp: "emailOtp"}}
+      body:
+        application/json:
+          type: !include createAccountRequeriments.raml
+          example:
+            {
+              "accountNumber": 1234,
+              "address": [{
+                "typeOfAddress": "home",
+                "city": "edomex",
+                "zip": 1234
+              }]
+            }
+      responses:
+        201:
+          body:
+            application/json:
+              example:
+                {
+                  "message": "Account created!"
+                }
+  ```
 
 4. Pero en vez de tener el ejemplo ahí, creamos un nuevo `file` de tipo `example` de nombre `createRequestExample` y agregamos el ejemplo anterior:
 
-```yaml
-#%RAML 1.0 NamedExample
-{
-  "accountNumber": 1234,
-  "address": [{
-    "typeOfAddress": "home",
-    "city": "edomex",
-    "zip": 1234
-  }]
-}
-```
+  ```yaml
+  #%RAML 1.0 NamedExample
+  {
+    "accountNumber": 1234,
+    "address": [{
+      "typeOfAddress": "home",
+      "city": "edomex",
+      "zip": 1234
+    }]
+  }
+  ```
 
 5. Modificamos de nuevo `/createAccount`:
 
-```yaml
-/createAccount:
-  description: "To create a new account"
-  post:
-    queryParameters:
-      branch: string
-    is:
-      - {typeOfVerification : {typeOfOtp: "emailOtp"}}
-    body:
-      application/json:
-        type: !include createAccountRequeriments.raml
-        example: !include createRequestExample.raml
-```
+  ```yaml
+  /createAccount:
+    description: "To create a new account"
+    post:
+      queryParameters:
+        branch: string
+      is:
+        - {typeOfVerification : {typeOfOtp: "emailOtp"}}
+      body:
+        application/json:
+          type: !include createAccountRequeriments.raml
+          example: !include createRequestExample.raml
+  ```

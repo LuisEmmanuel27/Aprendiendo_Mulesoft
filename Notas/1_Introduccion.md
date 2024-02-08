@@ -1,4 +1,4 @@
-# ¿Que es MuleSoft?
+# ¿Qué es MuleSoft?
 
 MuleSoft es una plataforma de software que permite la integración y la automatización de datos, sistemas y procesos entre diferentes aplicaciones y dispositivos. MuleSoft fue adquirida por _`Salesforce`_ en 2018 y forma parte de su ecosistema de soluciones.
 
@@ -41,13 +41,13 @@ Anypoint es una plataforma que ofrece una experiencia unificada para el desarrol
 
 API Led Connectivity es un enfoque para conectar y exponer activos digitales mediante el uso de APIs. Este enfoque permite una mayor agilidad, reutilización y gobernabilidad de los datos y servicios que se ofrecen a los consumidores internos y externos. En el contexto de MuleSoft, API Led Connectivity se basa en la plataforma Anypoint, que facilita el diseño, la implementación, la gestión y el consumo de APIs de forma integrada y segura. A continuación se describen los principales componentes y beneficios de API Led Connectivity tanto en el ámbito de MuleSoft como de manera general.
 
-Componentes de API Led Connectivity
+## Componentes de API Led Connectivity
 
 - **APIs de experiencia:** Son las APIs que se adaptan a las necesidades específicas de cada canal o consumidor, ya sea una aplicación web, móvil, un partner o un dispositivo IoT. Estas APIs se encargan de orquestar y transformar los datos que provienen de las APIs de proceso y de sistema, ofreciendo una experiencia personalizada y optimizada para cada caso de uso.
 - **APIs de proceso:** Son las APIs que implementan la lógica de negocio y los flujos de trabajo que involucran a varios sistemas o servicios. Estas APIs se encargan de coordinar y mediar entre las APIs de sistema y las APIs de experiencia, agregando valor y funcionalidad a los datos que se intercambian.
 - **APIs de sistema:** Son las APIs que se conectan directamente con los sistemas de origen, como bases de datos, aplicaciones legacy, sistemas ERP o CRM, etc. Estas APIs se encargan de abstraer y normalizar la forma de acceder y manipular los datos que residen en estos sistemas, ofreciendo una interfaz estandarizada y homogénea para su consumo.
 
-Beneficios de API Led Connectivity
+## Beneficios de API Led Connectivity
 
 - **Agilidad:** Al utilizar APIs como bloques modulares y reutilizables, se reduce el tiempo y el esfuerzo necesario para desarrollar e integrar nuevas soluciones digitales, permitiendo responder más rápido a los cambios del mercado y a las demandas de los clientes.
 - **Reutilización:** Al exponer los activos digitales mediante APIs, se facilita su descubrimiento y consumo por parte de otros desarrolladores o equipos, evitando la duplicación de esfuerzos y la creación de silos de información.

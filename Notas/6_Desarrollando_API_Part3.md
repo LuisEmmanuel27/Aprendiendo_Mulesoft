@@ -1,7 +1,5 @@
 # Developing APIs PART 3
 
-Continuando con lo realizado en la parte 2.
-
 Para esta parte necesitamos recordar o saber algo importante hacerca de los `Mule Events`, los `atributos` son algo que son _inmutables_ y que _cambiarán_ cuando se conecten a _sistemas externos._
 
 Pero en lo realizado en las partes anteriores no hemos visto en acción esa propiedad, asi que de eso se tratara esta actividad que se va a realizar
@@ -11,8 +9,6 @@ Pero en lo realizado en las partes anteriores no hemos visto en acción esa prop
 1. Ver el siguiente [video](https://www.youtube.com/watch?v=sCcZTPmdV1U&list=PL61bQcdxsK6_f5GDV3f2STtMTS3nYIlYO&index=11), del minuto "0:00" al "8:13"
 
 # Set Payload vs Transform Message
-
-## Similitudes:
 
 Ambos "Set Payload" y "Transform Message" son componentes en Mule 4 que se utilizan para manipular el contenido de un mensaje.
 

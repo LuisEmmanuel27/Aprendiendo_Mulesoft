@@ -426,8 +426,6 @@ Haremos uso de los conectores vistos `HTTP Listener` y `Set Payload`. Con ello c
 
 7. Ahora si en el navegador colocamos `http://localhost/8082/test` descargara un archivo que si abrimos con nuestro editor de texto favorito veremos el mensaje que colocamos en el _`Fx`_.
 
-8. Se puede hacer deploy de esta aplicación en Anypoint pero lo omitiremos de momento
-
 <div align="center">
    <img src="./img/practica1-ejemplo1.png" alt="ejemplo-1" width="700"/>
 </div>
