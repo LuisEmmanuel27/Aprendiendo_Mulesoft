@@ -2,10 +2,11 @@
 
 El conector "Flow Reference" en Mule 4 es como el mensajero interno de tu aplicación. Su función es dirigir el flujo del mensaje hacia otro lugar específico en tu aplicación. Puedes pensar en él como el encargado de "llamar a otro equipo" dentro de tu aplicación para que realice una tarea específica.
 
-**Ejemplo Simplificado:**
+## Ejemplo Simplificado:
+
 Imagina que tu aplicación es como un gran edificio con diferentes equipos en cada piso. Cuando el "Flow Reference" entra en acción, es como si alguien tomara el mensaje y dijera: "¡Oye, ve al piso 5 y dile al equipo de ventas que necesitamos ayuda!". Así, el mensaje se dirige directamente al lugar adecuado en tu aplicación.
 
-**Configuración Básica:**
+## Configuración Básica:
 ```xml
 <flow name="flujoPrincipal">
     <!-- ... otros componentes del flujo ... -->
@@ -75,10 +76,11 @@ En este ejemplo, cuando el mensaje llega al "Flow Reference" llamado "equipoVent
 
 En Mule 4, la variable principal es simplemente llamada `variable` Puedes pensar en ella como un pequeño espacio de almacenamiento temporal dentro de tu aplicación, como una nota adhesiva donde puedes escribir información importante. Esta variable te permite guardar y acceder a valores a medida que el mensaje viaja a través de los diferentes componentes de tu flujo.
 
-**Ejemplo Simplificado:**
+## Ejemplo Simplificado:
+
 Imagina que estás manejando un paquete que pasa por diferentes habitaciones en tu aplicación. La "variable" es como un pequeño casillero en cada habitación. Cuando necesitas dejar algo (un valor) para que el próximo equipo lo vea, simplemente lo colocas en ese casillero. Luego, cuando el mensaje pasa a la siguiente habitación, el equipo allí puede revisar lo que guardaste.
 
-**Configuración Básica:**
+## Configuración Básica:
 ```xml
 <set-variable variableName="nombreVariable" value="Información importante" doc:name="Set Variable"/>
 ```
@@ -119,10 +121,11 @@ En este ejemplo, estamos usando el componente "Set Variable" para colocar inform
 
 El componente "Logger" en Mule 4 actúa como el reportero de tu aplicación. Su tarea principal es registrarlo todo y crear un registro de eventos que te permite seguir la pista de lo que está sucediendo en tu flujo. Puedes pensar en él como un cronista que documenta lo que ocurre en cada paso del camino.
 
-**Ejemplo Simplificado:**
+## Ejemplo Simplificado:
+
 Imagina que tu aplicación es como un libro, y el "Logger" es el escritor que agrega comentarios a cada página. Cada vez que algo significativo sucede en tu aplicación, el "Logger" toma nota y lo agrega al registro. Así, cuando revisas el registro, puedes ver exactamente lo que sucedió en cada parte de tu aplicación.
 
-**Configuración Básica:**
+## Configuración Básica:
 ```xml
 <logger message="¡Esto es importante!" level="INFO" doc:name="Logger"/>
 ```

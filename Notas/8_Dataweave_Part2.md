@@ -4,9 +4,7 @@ Los operadores `map` y `mapObject` son herramientas poderosas en DataWeave 2.0 q
 
 ## Operador `map`:
 
-### ¿Qué es el Operador `map`?
-
-- **Definición:** El operador `map` se utiliza para iterar sobre una colección (como una lista o un arreglo) y aplicar una transformación a cada elemento de la colección.
+El operador `map` se utiliza para iterar sobre una colección (como una lista o un arreglo) y aplicar una transformación a cada elemento de la colección.
 
 ### ¿Por qué Usar `map`?
 
@@ -27,9 +25,7 @@ En este ejemplo, cada elemento de la lista se multiplica por 2.
 
 ## Operador `mapObject`:
 
-### ¿Qué es el Operador `mapObject`?
-
-- **Definición:** El operador `mapObject` se utiliza para iterar sobre un objeto y aplicar una transformación a cada par clave-valor.
+El operador `mapObject` se utiliza para iterar sobre un objeto y aplicar una transformación a cada par clave-valor.
 
 ### ¿Por qué Usar `mapObject`?
 

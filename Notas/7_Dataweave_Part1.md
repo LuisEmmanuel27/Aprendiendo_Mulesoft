@@ -203,8 +203,6 @@ Al interactuar con las características de vista previa, puedes desarrollar una 
 
 La capacidad de previsualizar transformaciones facilita la depuración al permitirte identificar rápidamente posibles problemas antes de la ejecución completa. Puedes detectar errores, realizar ajustes y perfeccionar tus transformaciones de manera más eficiente.
 
-En resumen, las características de vista previa en DataWeave 2.0 ofrecen una valiosa capacidad de exploración y experimentación antes de la implementación, permitiéndote entender, depurar y optimizar tus transformaciones de datos de manera efectiva.
-
 # Actividad, Parte 2
 
 > [!TIP]

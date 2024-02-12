@@ -51,10 +51,6 @@ resourceTypes:
 
 Al aplicar este `resourceType`, puedes personalizar el parámetro `customParameter` según las necesidades específicas de cada recurso.
 
-<hr/>
-
-En resumen, `resourceTypes` en RAML son una herramienta fundamental para promover la reutilización y coherencia en la especificación de una API. Al entender cuándo y cómo utilizarlos, los desarrolladores pueden optimizar el diseño y mantenimiento de la API, asegurando consistencia y eficiencia en todo el desarrollo.
-
 # Actividad, Parte 1
 
 1. Volvemos a nuestro proyecto de `bank-sys-api-ex`

@@ -31,8 +31,6 @@ Salesforce es utilizado por una amplia gama de empresas, desde startups hasta gr
 ## Salesforce y MuleSoft
 La integración entre Salesforce y MuleSoft es clave para aprovechar al máximo ambas plataformas. MuleSoft permite conectar Salesforce con otros sistemas y aplicaciones, garantizando una experiencia de usuario fluida y una visión completa de los datos en toda la empresa.
 
-En resumen, Salesforce se ha convertido en un pilar fundamental para muchas organizaciones, ofreciendo soluciones integrales para la gestión eficaz de relaciones con clientes y el impulso de operaciones comerciales. Su integración con MuleSoft potencia la conectividad y la interoperabilidad en el panorama empresarial actual.
-
 # Integración con Salesforce en Mule 4
 
 La integración con Salesforce en Mule 4 permite conectar y realizar operaciones con la plataforma Salesforce, que es ampliamente utilizada para la gestión de relaciones con clientes (CRM). Aquí se abordan aspectos clave de la integración:

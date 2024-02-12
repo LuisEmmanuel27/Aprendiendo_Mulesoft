@@ -245,7 +245,7 @@ El "Flow" en Mule 4, además de su estructura básica, incorpora dos componentes
 **Proceso (Process):**
 Dentro de un flujo, el componente "Process" proporciona un espacio dedicado para la ejecución de lógica de negocio y transformaciones de datos. Este componente actúa como un contenedor flexible donde se pueden agregar múltiples operaciones para manipular la carga útil del mensaje, interactuar con variables o realizar cualquier acción necesaria durante el procesamiento.
 
-**Ejemplo de Uso de Process:**
+## Ejemplo de Uso de Process:
 ```xml
 <flow name="ejemploProceso">
   <http:listener config-ref="HTTP_Listener_Configuration" path="/api/endpoint" doc:name="HTTP"/>
@@ -259,10 +259,11 @@ Dentro de un flujo, el componente "Process" proporciona un espacio dedicado para
 ```
 En este ejemplo, el "Process" utiliza una cadena de procesadores para realizar una transformación simple de mayúsculas en el mensaje recibido.
 
-**Manejo de Errores (Error Handling):**
+## Manejo de Errores (Error Handling):
+
 Mule 4 proporciona capacidades robustas para manejar errores en un flujo a través de componentes dedicados al "Manejo de Errores". Estos componentes permiten definir acciones específicas que deben tomarse cuando se produce una excepción durante la ejecución del flujo. El manejo de errores es esencial para garantizar la integridad y disponibilidad de la aplicación, así como para proporcionar información significativa sobre problemas potenciales.
 
-**Ejemplo de Configuración de Manejo de Errores:**
+## Ejemplo de Configuración de Manejo de Errores:
 ```xml
 <flow name="ejemploManejoErrores">
   <http:listener config-ref="HTTP_Listener_Configuration" path="/api/endpoint" doc:name="HTTP"/>
@@ -282,17 +283,19 @@ La incorporación de "Process" y "Manejo de Errores" en un flujo enriquece la ca
 
 El "Private Flow" comparte muchas similitudes con el "Flow" convencional, pero se destaca por su ejecución asíncrona e independiente. Aunque comparte la estructura básica y componentes clave con el "Flow" estándar, las diferencias fundamentales radican en su capacidad para delegar tareas secundarias a un hilo de ejecución separado.
 
-**Similitudes con Flow:**
+## Similitudes con Flow:
+
 Al igual que el "Flow," el "Private Flow" tiene puntos de entrada (sources) y una estructura que consta de componentes interconectados, permitiendo la manipulación y procesamiento de mensajes. Los componentes utilizados en la estructura de un "Private Flow" son los mismos que se emplean en un "Flow" convencional.
 
-**Diferencias Clave:**
+## Diferencias Clave:
+
 - **Sources sin Sinks:**
   - A diferencia de un "Flow" normal, un "Private Flow" tiene sources, pero no tiene sinks. Esto significa que un "Private Flow" se inicia desde un punto específico, pero no tiene un punto de salida definido dentro del mismo flujo.
 
 - **Ejecución Asíncrona:**
   - La ejecución de un "Private Flow" es asíncrona e independiente del flujo o sub-flujo que lo inicia. Esto permite que el hilo principal continúe con su procesamiento principal sin esperar la finalización del "Private Flow."
 
-**Ejemplo de Uso de Private Flow:**
+## Ejemplo de Uso de Private Flow:
 ```xml
 <flow name="flujoPrincipal">
   <http:listener config-ref="HTTP_Listener_Configuration" path="/api/principal" doc:name="HTTP"/>
@@ -316,11 +319,13 @@ El "Private Flow" en Mule 4 ofrece una forma eficaz de delegar tareas secundaria
 
 El "Sub-Flow" es una construcción especial que comparte similitudes con el "Flow" estándar, pero se diferencia por su propósito principal de reutilización. Diseñado para encapsular lógica común y evitar la duplicación de código, el "Sub-Flow" se invoca desde otros flujos o sub-flujos mediante el componente `flow-ref`.
 
-**Similitudes con Flow:**
+## Similitudes con Flow:
+
 - Al igual que el "Flow," el "Sub-Flow" posee una estructura compuesta por componentes interconectados que manipulan y procesan mensajes.
 - Puede contener sources y sinks, lo que significa que puede tener puntos de entrada y salida, aunque su invocación típicamente se realiza mediante el componente `flow-ref`.
 
-**Diferencias Clave:**
+## Diferencias Clave:
+
 - **Reutilización de Lógica:**
   - La principal diferencia radica en su propósito de reutilización. Los "Sub-Flows" se diseñan para encapsular lógica común que puede ser utilizada en varios lugares, promoviendo la modularidad y reduciendo la duplicación de código.
 
@@ -371,10 +376,12 @@ Los "Connectors" en Mule 4 son elementos fundamentales que permiten la conexión
 
 Imagina el "HTTP Listener" como un cuidador en la puerta de tu aplicación Mule. Este cuidador espera educadamente a que alguien llame a la puerta, es decir, envíe una solicitud HTTP. Puedes decirle al "HTTP Listener" en qué dirección esperar esas solicitudes (como `/api`), y él estará allí para recibirlas.
 
-**Ejemplo Simplificado:**
+## Ejemplo Simplificado:
+
 Supongamos que tienes una tienda en línea, y el "HTTP Listener" es como el guardián de la entrada de tu tienda. Le dices al guardián que esté atento a cualquier persona que llegue a través de la puerta principal (la ruta `/api`). Cuando alguien llega, el guardián avisa a tu equipo de ventas (el resto del flujo en Mule) para que atiendan al cliente. Así de simple es el "HTTP Listener" — escucha y dirige las solicitudes a donde deben ir.
 
-**Configuración Básica:**
+## Configuración Básica:
+
 ```xml
 <http:listener-config name="HTTP_Listener_Configuration" doc:name="HTTP Listener Configuration" basePath="/api" >
     <http:listener-connection host="0.0.0.0" port="8081" />
@@ -392,10 +399,12 @@ En este ejemplo, estamos diciéndole al "HTTP Listener" que escuche en la direcc
 
 El conector "Set Payload" en Mule 4 es como el mago de los mensajes. Su tarea es tomar un mensaje y cambiar su contenido por algo completamente nuevo. Puedes pensar en él como el encargado de "transformar" el mensaje, dándole un nuevo significado o información.
 
-**Ejemplo Simplificado:**
+## Ejemplo Simplificado:
+
 Imagina que tienes un paquete con un mensaje dentro, y el "Set Payload" es como un escriba mágico. Cuando le pides al escriba que cambie el mensaje, ¡puf!, el mensaje ahora dice algo completamente diferente. Por ejemplo, si el mensaje original decía "hola", después de pasar por el "Set Payload", podría decir "buen día". Es como si el escriba mágico le diera un nuevo papel al mensaje.
 
-**Configuración Básica:**
+## Configuración Básica:
+
 ```xml
 <set-payload value="¡Hola, mundo!" doc:name="Set Payload"/>
 ```

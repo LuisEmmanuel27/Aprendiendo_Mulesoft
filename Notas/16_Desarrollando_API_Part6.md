@@ -29,8 +29,6 @@ El componente "For-Each" en Mule 4 permite realizar iteraciones sobre una colecc
 </foreach>
 ```
 
-En resumen, el componente "For-Each" es esencial para realizar operaciones iterativas en un conjunto de datos, y estas consideraciones ayudan a comprender su comportamiento y cómo gestionar errores durante la iteración.
-
 # Actividad, Parte 1
 
 1. Abre nuestro primer proyecto de `apexhours`

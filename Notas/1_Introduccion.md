@@ -94,8 +94,6 @@ La `figura 1` muestra un diagrama de conectividad liderado por API (Interfaz de 
 
 El flujo comienza con una acción iniciada por el usuario final a través de las APIs de experiencia (por ejemplo, reservar un vuelo). Luego, esta solicitud es procesada por las APIs correspondientes en el nivel intermedio (proceso), como procesar el pago o verificar el estado del vuelo pre-reservado. Finalmente, estas solicitudes son manejadas y ejecutadas por las APIs del sistema que están integradas con bases específicas o sistemas externos. 
 
-En resumen, este diagrama muestra cómo las diferentes APIs trabajan juntas para proporcionar una experiencia fluida y eficiente al usuario final.
-
 ### Reutilizar, dividir y segregar
 
 En el diagrama de la `figura 1` de conectividad liderado por API, los conceptos de reutilizar, dividir y segregar la API se aplican de la siguiente manera:
