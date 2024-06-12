@@ -23,9 +23,7 @@ Guía básica de Mule basada en la siguiente playlist de YouTube: [ver playlist]
 
 ### 2.1 <a href="./Notas/2_Diseñando_API_Part1.md/#¿qué-es-una-especificación-de-api">¿Qué es una especificación de API?</a>
 
-### 2.2 <a href="./Notas/2_Diseñando_API_Part1.md/#¿qué-es-una-especificación-de-api">¿Qué es una especificación de API?</a>
-
-### 2.3 <a href="./Notas/2_Diseñando_API_Part1.md/#actividad-parte-1">RAML: Primeros pasos</a>
+### 2.2 <a href="./Notas/2_Diseñando_API_Part1.md/#actividad-parte-1">RAML: Primeros pasos</a>
 
 ---
 
